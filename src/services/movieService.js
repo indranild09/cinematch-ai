@@ -58,3 +58,11 @@ export const getUpcomingMovies = async () => {
 
   return res.json();
 };
+
+export const getTopRatedMovies = async () => {
+  const res = await fetch(
+    `${API_BASE}/api/top-rated`
+  );
+
+  return res.json();
+};

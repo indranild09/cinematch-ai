@@ -8,6 +8,7 @@ import {
   getTrendingMovies,
   getPopularMovies,
   getUpcomingMovies,
+  getTopRatedMovies,
   getMoviesByGenre,
 } from "../services/movieService";
 
@@ -20,6 +21,7 @@ function Home() {
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
+  const [topRated, setTopRated] = useState([]);
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedMoodGenres, setSelectedMoodGenres] = useState([]);
   const [moodMovies, setMoodMovies] = useState([]);
@@ -95,10 +97,12 @@ function Home() {
       const trendingData = await getTrendingMovies();
       const popularData = await getPopularMovies();
       const upcomingData = await getUpcomingMovies();
+      const topRatedData = await getTopRatedMovies();
 
       setTrending(trendingData.results || []);
       setPopular(popularData.results || []);
       setUpcoming(upcomingData.results || []);
+      setTopRated(topRatedData.results || []);
     } catch (error) {
       console.error(error);
     }
@@ -335,13 +339,24 @@ function Home() {
             </div>
           </>
         )}
-<br/>
-<br/>
+        <br />
+        <br />
 
         <h2>🔥 Trending This Week</h2>
 
         <div className="movie-grid">
           {trending
+            .slice(0, 10)
+            .map(renderMovieCard)}
+        </div>
+
+        <br />
+        <br />
+
+        <h2>🏆 Top Rated Movies</h2>
+
+        <div className="movie-grid">
+          {topRated
             .slice(0, 10)
             .map(renderMovieCard)}
         </div>
@@ -353,8 +368,8 @@ function Home() {
             .slice(0, 10)
             .map(renderMovieCard)}
         </div>
-<br/>
-<br/>
+        <br />
+        <br />
 
         <h2>🎬 Upcoming Movies</h2>
 
