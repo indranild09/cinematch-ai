@@ -271,6 +271,7 @@ function MovieDetails() {
                   marginBottom: "40px",
                 }}
               >
+                <br />
                 <h2>🎬 Official Trailer</h2>
 
                 <iframe
