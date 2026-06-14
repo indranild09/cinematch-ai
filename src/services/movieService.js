@@ -74,3 +74,11 @@ export const getMovieCast = async (id) => {
 
   return res.json();
 };
+
+export const getMovieReviews = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/reviews/${id}`
+  );
+
+  return res.json();
+};

@@ -8,6 +8,7 @@ import {
   getTrailer,
   getWatchProviders,
   getMovieCast,
+  getMovieReviews,
 } from "../services/movieService";
 import "./MovieDetails.css";
 
@@ -25,7 +26,7 @@ function MovieDetails() {
   const [trailerKey, setTrailerKey] = useState(null);
   const [providers, setProviders] = useState([]);
   const [providerLink, setProviderLink] = useState("");
-
+  const [reviews, setReviews] = useState([]);
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [cast, setCast] = useState([]);
@@ -65,7 +66,12 @@ function MovieDetails() {
 
       const castData = await getMovieCast(id);
 
-setCast(castData.cast || []);
+      setCast(castData.cast || []);
+
+      const reviewData =
+        await getMovieReviews(id);
+
+      setReviews(reviewData.results || []);
 
       const trailerData = await getTrailer(id);
       setTrailerKey(trailerData.key);
@@ -190,10 +196,10 @@ setCast(castData.cast || []);
 
         <div className="movie-header">
           <img
-  className="movie-poster"
-  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-  alt={movie.title}
-/>
+            className="movie-poster"
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+          />
 
           <div className="movie-content">
             <h1>{movie.title}</h1>
@@ -291,7 +297,7 @@ setCast(castData.cast || []);
                         )
 
                       }
-                      
+
                     >
                       <img
                         src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
@@ -329,42 +335,82 @@ setCast(castData.cast || []);
           </div>
 
         </div>
-            
-              <br />
-              <br />
+
+        <br />
+        <br />
 
         <div
-  style={{
-    marginTop: "40px",
-    marginBottom: "40px",
-  }}
->
-  <h2>🎭 Cast</h2>
+          style={{
+            marginTop: "40px",
+            marginBottom: "40px",
+          }}
+        >
+          <h2>🎭 Cast</h2>
 
-  <div className="movie-grid">
-    {cast.slice(0, 12).map((actor) => (
-      <div
-        key={actor.cast_id || actor.id}
-        className="movie-card"
-      >
-        <img
-          src={
-            actor.profile_path
-              ? `https://image.tmdb.org/t/p/w300${actor.profile_path}`
-              : "https://via.placeholder.com/300x450?text=No+Image"
-          }
-          alt={actor.name}
-        />
+          <div className="movie-grid">
+            {cast.slice(0, 12).map((actor) => (
+              <div
+                key={actor.cast_id || actor.id}
+                className="movie-card"
+              >
+                <img
+                  src={
+                    actor.profile_path
+                      ? `https://image.tmdb.org/t/p/w300${actor.profile_path}`
+                      : "https://via.placeholder.com/300x450?text=No+Image"
+                  }
+                  alt={actor.name}
+                />
 
-        <div className="movie-info">
-          <h3>{actor.name}</h3>
+                <div className="movie-info">
+                  <h3>{actor.name}</h3>
 
-          <p>{actor.character}</p>
+                  <p>{actor.character}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    ))}
-  </div>
-</div>
+
+        <br />
+        <br />
+
+        <div
+          style={{
+            marginTop: "40px",
+            marginBottom: "40px",
+          }}
+        >
+          <h2>⭐ Reviews</h2>
+
+          {reviews.length > 0 ? (
+            <div className="reviews-container">
+              {reviews.slice(0, 5).map((review) => (
+                <div
+                  key={review.id}
+                  className="review-card"
+                >
+                  <h3>
+                    {review.author}
+                  </h3>
+
+                  <p>
+                    {review.content.length > 500
+                      ? review.content.substring(
+                        0,
+                        500
+                      ) + "..."
+                      : review.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>
+              No reviews available.
+            </p>
+          )}
+        </div>
 
         <h2>🎬 Movies Like This</h2>
 
@@ -376,10 +422,10 @@ setCast(castData.cast || []);
               onClick={() => navigate(`/movie/${movie.id}`)}
             >
               <img
-  className="movie-poster"
-  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-  alt={movie.title}
-/>
+                className="movie-poster"
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+              />
 
               <div className="movie-info">
                 <h3>{movie.title}</h3>
