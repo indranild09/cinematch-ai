@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useState } from "react";
+import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -16,54 +17,35 @@ function Navbar() {
   };
 
   return (
-    <nav
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "15px",
-        background: "#111",
-        borderBottom: "1px solid #333",
-      }}
-    >
+    <nav className="navbar">
       {/* Left Side */}
-      <div
-        style={{
-          display: "flex",
-gap: "8px",
-flexWrap: "wrap",
-        }}
-      >
+      <div className="nav-left">
         <Link
           to="/home"
-          style={navButton}
+          className="nav-btn"
         >
           🏠 Home
         </Link>
 
         <Link
           to="/watchlist"
-          style={navButton}
+          className="nav-btn"
         >
           ❤️ Watchlist
         </Link>
 
         <Link
           to="/favorites"
-          style={navButton}
+          className="nav-btn"
         >
           ⭐ Favorites
         </Link>
       </div>
 
       {/* Right Side */}
-      <div
-        style={{
-          position: "relative",
-        }}
-      >
+      <div className="nav-right">
         <button
-          style={userButton}
+          className="user-btn"
           onClick={() =>
             setShowMenu(!showMenu)
           }
@@ -72,21 +54,9 @@ flexWrap: "wrap",
         </button>
 
         {showMenu && (
-          <div
-            style={{
-              position: "absolute",
-              right: 0,
-              top: "45px",
-              background: "#1e1e1e",
-              border: "1px solid #333",
-              borderRadius: "10px",
-              minWidth: "160px",
-              overflow: "hidden",
-              zIndex: 999,
-            }}
-          >
+          <div className="dropdown-menu">
             <button
-              style={menuItem}
+  className="dropdown-item"
               onClick={() =>
                 navigate("/profile")
               }
@@ -95,7 +65,7 @@ flexWrap: "wrap",
             </button>
 
             <button
-              style={menuItem}
+  className="dropdown-item"
               onClick={handleLogout}
             >
               🚪 Logout
@@ -107,33 +77,6 @@ flexWrap: "wrap",
   );
 }
 
-const navButton = {
-  textDecoration: "none",
-  color: "white",
-  background: "#222",
-  padding: "8px 12px",
-  borderRadius: "8px",
-  fontWeight: "600",
-};
 
-const userButton = {
-  background: "#222",
-  color: "white",
-  border: "none",
-  padding: "10px 16px",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontWeight: "600",
-};
-
-const menuItem = {
-  width: "100%",
-  background: "transparent",
-  color: "white",
-  border: "none",
-  padding: "12px",
-  textAlign: "left",
-  cursor: "pointer",
-};
 
 export default Navbar;
