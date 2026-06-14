@@ -66,3 +66,11 @@ export const getTopRatedMovies = async () => {
 
   return res.json();
 };
+
+export const getMovieCast = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/cast/${id}`
+  );
+
+  return res.json();
+};

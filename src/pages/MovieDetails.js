@@ -7,6 +7,7 @@ import {
   getRecommendations,
   getTrailer,
   getWatchProviders,
+  getMovieCast,
 } from "../services/movieService";
 import "./MovieDetails.css";
 
@@ -27,6 +28,7 @@ function MovieDetails() {
 
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
+  const [cast, setCast] = useState([]);
   const getProviderUrl = (providerName) => {
     const providerUrls = {
       Netflix: "https://www.netflix.com",
@@ -60,6 +62,10 @@ function MovieDetails() {
 
       const recData = await getRecommendations(id);
       setRecommendations(recData.results || []);
+
+      const castData = await getMovieCast(id);
+
+setCast(castData.cast || []);
 
       const trailerData = await getTrailer(id);
       setTrailerKey(trailerData.key);
@@ -323,6 +329,42 @@ function MovieDetails() {
           </div>
 
         </div>
+            
+              <br />
+              <br />
+
+        <div
+  style={{
+    marginTop: "40px",
+    marginBottom: "40px",
+  }}
+>
+  <h2>🎭 Cast</h2>
+
+  <div className="movie-grid">
+    {cast.slice(0, 12).map((actor) => (
+      <div
+        key={actor.cast_id || actor.id}
+        className="movie-card"
+      >
+        <img
+          src={
+            actor.profile_path
+              ? `https://image.tmdb.org/t/p/w300${actor.profile_path}`
+              : "https://via.placeholder.com/300x450?text=No+Image"
+          }
+          alt={actor.name}
+        />
+
+        <div className="movie-info">
+          <h3>{actor.name}</h3>
+
+          <p>{actor.character}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
 
         <h2>🎬 Movies Like This</h2>
 
