@@ -49,6 +49,7 @@ function MovieDetails() {
 
       setProviders(providerData.providers || []);
       setProviderLink(providerData.link || "");
+      console.log("Providers:", providerData.providers);
     } catch (error) {
       console.error(error);
     }
@@ -267,60 +268,76 @@ function MovieDetails() {
               </div>
             )}
 
-            {providers.length > 0 && (
-              <div
-                style={{
-                  marginTop: "30px",
-                  marginBottom: "30px",
-                }}
-              >
-                <h2>📺 Available On</h2>
-                
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "15px",
-                    marginTop: "15px",
-                  }}
-                >
-                  {providers.map((provider) => (
-                    <div
-                      key={provider.provider_id}
-                      onClick={() =>
-                        window.open(
-                          providerLink,
-                          "_blank"
-                        )
-                      }
-                      style={{
-                        cursor: "pointer",
-                        textAlign: "center",
-                      }}
-                    >
-                      <img
-                        src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
-                        alt={provider.provider_name}
-                        style={{
-                          width: "70px",
-                          height: "70px",
-                          borderRadius: "12px",
-                        }}
-                      />
+           <div
+  style={{
+    marginTop: "30px",
+    marginBottom: "30px",
+  }}
+>
+  <h2>
+    📺 Available On ({providers.length})
+  </h2>
 
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          marginTop: "8px",
-                        }}
-                      >
-                        {provider.provider_name}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+  {providers.length > 0 ? (
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "20px",
+        marginTop: "15px",
+      }}
+    >
+      {providers.map((provider) => (
+        <div
+          key={provider.provider_id}
+          onClick={() =>
+            window.open(
+              providerLink,
+              "_blank"
+            )
+          }
+          style={{
+            cursor: "pointer",
+            textAlign: "center",
+            background: "#1f1f1f",
+            padding: "10px",
+            borderRadius: "12px",
+            minWidth: "100px",
+          }}
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
+            alt={provider.provider_name}
+            style={{
+              width: "70px",
+              height: "70px",
+              borderRadius: "12px",
+              objectFit: "cover",
+            }}
+          />
+
+          <p
+            style={{
+              fontSize: "12px",
+              marginTop: "8px",
+            }}
+          >
+            {provider.provider_name}
+          </p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p
+      style={{
+        color: "#aaa",
+        marginTop: "10px",
+      }}
+    >
+      Streaming availability not found in India.
+    </p>
+  )}
+</div>
           </div>
 
         </div>
