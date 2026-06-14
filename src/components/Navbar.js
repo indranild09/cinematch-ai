@@ -21,7 +21,7 @@ function Navbar() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "15px 30px",
+        padding: "15px",
         background: "#111",
         borderBottom: "1px solid #333",
       }}
@@ -30,7 +30,8 @@ function Navbar() {
       <div
         style={{
           display: "flex",
-          gap: "15px",
+gap: "8px",
+flexWrap: "wrap",
         }}
       >
         <Link
@@ -110,7 +111,7 @@ const navButton = {
   textDecoration: "none",
   color: "white",
   background: "#222",
-  padding: "10px 16px",
+  padding: "8px 12px",
   borderRadius: "8px",
   fontWeight: "600",
 };

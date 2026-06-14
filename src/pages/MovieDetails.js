@@ -8,7 +8,7 @@ import {
   getTrailer,
   getWatchProviders,
 } from "../services/movieService";
-
+import "./MovieDetails.css";
 
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase";
@@ -162,12 +162,7 @@ function MovieDetails() {
 
   if (!movie) {
     return (
-      <div
-        style={{
-          color: "white",
-          padding: "30px",
-        }}
-      >
+      <div className="movie-details-container">
         Loading...
       </div>
     );
@@ -176,12 +171,7 @@ function MovieDetails() {
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          color: "white",
-          padding: "30px",
-        }}
-      >
+      <div className="movie-details-container">
         <button
           onClick={() => navigate(-1)}
           style={{
@@ -192,24 +182,14 @@ function MovieDetails() {
           ← Back
         </button>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: "40px",
-            marginBottom: "50px",
-          }}
-        >
+        <div className="movie-header">
           <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            style={{
-              width: "300px",
-              borderRadius: "10px",
-            }}
-          />
+  className="movie-poster"
+  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+  alt={movie.title}
+/>
 
-          <div>
+          <div className="movie-content">
             <h1>{movie.title}</h1>
 
             <h3>
@@ -237,13 +217,7 @@ function MovieDetails() {
 
             <br />
 
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "10px",
-              }}
-            >
+            <div className="action-buttons">
               <button
                 onClick={addToWatchlist}
                 style={{
@@ -281,10 +255,7 @@ function MovieDetails() {
                   title="Movie Trailer"
                   frameBorder="0"
                   allowFullScreen
-                  style={{
-                    maxWidth: "900px",
-                    borderRadius: "10px",
-                  }}
+                  className="trailer-frame"
                 />
               </div>
             )}
@@ -300,16 +271,10 @@ function MovieDetails() {
               </h2>
 
               {providers.length > 0 ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "20px",
-                    marginTop: "15px",
-                  }}
-                >
+                <div className="providers-grid">
                   {providers.map((provider) => (
                     <div
+                      className="provider-card"
                       key={provider.provider_id}
                       onClick={() =>
                         window.open(
@@ -320,15 +285,7 @@ function MovieDetails() {
                         )
 
                       }
-                      style={{
-                        cursor: "pointer",
-                        textAlign: "center",
-                        background: "#1f1f1f",
-                        padding: "10px",
-                        borderRadius: "12px",
-                        minWidth: "100px",
-                        transition: "0.3s",
-                      }}
+                      
                     >
                       <img
                         src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
@@ -377,16 +334,10 @@ function MovieDetails() {
               onClick={() => navigate(`/movie/${movie.id}`)}
             >
               <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                style={{
-                  width: "280px",
-                  maxHeight: "420px",
-                  objectFit: "cover",
-                  borderRadius: "12px",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                }}
-              />
+  className="movie-poster"
+  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+  alt={movie.title}
+/>
 
               <div className="movie-info">
                 <h3>{movie.title}</h3>

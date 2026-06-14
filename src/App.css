@@ -318,3 +318,103 @@ h1 {
 .remove-btn-fvt:hover {
   background: #d60000;
 }
+
+/* ===================================
+   RESPONSIVE DESIGN
+=================================== */
+
+@media (max-width: 768px) {
+
+  .app {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .search-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .search-container button {
+    width: 100%;
+  }
+
+  .movie-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap: 15px;
+  }
+
+  .movie-card img {
+    height: 250px;
+  }
+
+  .movie-info h3 {
+    font-size: 14px;
+  }
+
+  .genre-container,
+  .moods,
+  .checkbox-container {
+    gap: 8px;
+  }
+
+  .genre-btn,
+  .mood-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .profile-page {
+    padding: 15px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .movie-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .movie-card img {
+    height: 320px;
+  }
+
+  .auth-card {
+    padding: 20px;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .auth-subtitle {
+    font-size: 14px;
+  }
+
+  .auth-input,
+  .auth-btn {
+    font-size: 14px;
+  }
+}
