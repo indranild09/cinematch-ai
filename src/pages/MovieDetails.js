@@ -299,57 +299,36 @@ function MovieDetails() {
 
               {providers.length > 0 ? (
                 <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "20px",
-                    marginTop: "15px",
-                  }}
-                >
-                  {providers.map((provider) => (
-                    <div
-                      key={provider.provider_id}
-                      onClick={() =>
-                        window.open(
-                          getProviderUrl(
-                            provider.provider_name
-                          ),
-                          "_blank"
-                        )
-
-                      }
-                      style={{
-                        cursor: "pointer",
-                        textAlign: "center",
-                        background: "#1f1f1f",
-                        padding: "10px",
-                        borderRadius: "12px",
-                        minWidth: "100px",
-                        transition: "0.3s",
-                      }}
-                    >
-                      <img
-                        src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
-                        alt={provider.provider_name}
-                        style={{
-                          width: "70px",
-                          height: "70px",
-                          borderRadius: "12px",
-                          objectFit: "cover",
-                        }}
-                      />
-
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          marginTop: "8px",
-                        }}
-                      >
-                        {provider.provider_name}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+    marginTop: "15px",
+  }}
+>
+  {providers.map((provider) => (
+    <button
+      key={provider.provider_id}
+      onClick={() =>
+        window.open(
+          getProviderUrl(provider.provider_name),
+          "_blank"
+        )
+      }
+      style={{
+        background: "#1f1f1f",
+        color: "white",
+        border: "1px solid #444",
+        borderRadius: "20px",
+        padding: "8px 15px",
+        cursor: "pointer",
+        fontSize: "14px",
+      }}
+    >
+      {provider.provider_name}
+    </button>
+  ))}
+</div>
               ) : (
                 <p
                   style={{
