@@ -30,6 +30,7 @@ function MovieDetails() {
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(true);
   const getProviderUrl = (providerName) => {
     const providerUrls = {
       Netflix: "https://www.netflix.com",
@@ -51,13 +52,14 @@ function MovieDetails() {
   };
 
   useEffect(() => {
-    loadMovie();
+  loadMovie();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]);
 
   const loadMovie = async () => {
-    try {
+  try {
+    setLoading(true);
       const movieData = await getMovieDetails(id);
       setMovie(movieData);
 
@@ -80,8 +82,10 @@ function MovieDetails() {
 
       setProviders(providerData.providers || []);
       setProviderLink(providerData.link || "");
+      setLoading(false);
       console.log("Providers:", providerData.providers);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
   };
@@ -172,12 +176,20 @@ function MovieDetails() {
     }
   };
 
-  if (!movie) {
+  if (loading || !movie) {
     return (
-      <div className="movie-details-container">
-        Loading...
+  <>
+    <Navbar />
+
+    <div className="loader-container">
+      <div className="loader-spinner"></div>
+
+      <div className="loader-text">
+        Loading Movie Details...
       </div>
-    );
+    </div>
+  </>
+);
   }
 
   return (

@@ -3,6 +3,7 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
+
 import {
   searchMovies,
   getTrendingMovies,
@@ -14,7 +15,7 @@ import {
 
 function Home() {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
@@ -94,6 +95,7 @@ function Home() {
 
   const loadHomeData = async () => {
     try {
+      setLoading(true);
       const trendingData = await getTrendingMovies();
       const popularData = await getPopularMovies();
       const upcomingData = await getUpcomingMovies();
@@ -103,26 +105,28 @@ function Home() {
       setPopular(popularData.results || []);
       setUpcoming(upcomingData.results || []);
       setTopRated(topRatedData.results || []);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
   };
 
   const searchMovieHandler = async () => {
-    if (!searchTerm.trim()) return;
+  if (!searchTerm.trim()) return;
 
-    try {
-      const results = await searchMovies(searchTerm);
+  try {
+    const results = await searchMovies(searchTerm);
 
-      if (Array.isArray(results)) {
-        setMovies(results);
-      } else {
-        setMovies(results.results || []);
-      }
-    } catch (error) {
-      console.error(error);
+    if (Array.isArray(results)) {
+      setMovies(results);
+    } else {
+      setMovies(results.results || []);
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleGenreClick = async (genreId, genreName) => {
     try {
@@ -205,6 +209,22 @@ function Home() {
       </div>
     </div>
   );
+
+  if (loading) {
+  return (
+    <>
+      <Navbar />
+
+      <div className="loader-container">
+        <div className="loader-spinner"></div>
+
+        <div className="loader-text">
+          Loading Movies...
+        </div>
+      </div>
+    </>
+  );
+}
 
   return (
     <>

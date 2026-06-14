@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,42 +19,91 @@ function Favorites() {
   }, []);
 
   const loadFavorites = async () => {
-    const user = auth.currentUser;
+    try {
+      setLoading(true);
 
-    if (!user) return;
+      const user = auth.currentUser;
 
-    const docRef = doc(db, "users", user.uid);
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
-    const docSnap = await getDoc(docRef);
-
-    const data = docSnap.data();
-
-    setFavorites(data.favorites || []);
-  };
-
-  const removeFavorite = async (movieId) => {
-    const user = auth.currentUser;
-
-    if (!user) return;
-
-    const docRef = doc(db, "users", user.uid);
-
-    const docSnap = await getDoc(docRef);
-
-    const currentFavorites =
-      docSnap.data().favorites || [];
-
-    const updatedFavorites =
-      currentFavorites.filter(
-        (movie) => movie.id !== movieId
+      const docRef = doc(
+        db,
+        "users",
+        user.uid
       );
 
-    await updateDoc(docRef, {
-      favorites: updatedFavorites,
-    });
+      const docSnap = await getDoc(
+        docRef
+      );
 
-    setFavorites(updatedFavorites);
+      const data = docSnap.data();
+
+      setFavorites(
+        data?.favorites || []
+      );
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
+
+  const removeFavorite = async (
+    movieId
+  ) => {
+    try {
+      const user = auth.currentUser;
+
+      if (!user) return;
+
+      const docRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+      const docSnap = await getDoc(
+        docRef
+      );
+
+      const currentFavorites =
+        docSnap.data().favorites || [];
+
+      const updatedFavorites =
+        currentFavorites.filter(
+          (movie) =>
+            movie.id !== movieId
+        );
+
+      await updateDoc(docRef, {
+        favorites: updatedFavorites,
+      });
+
+      setFavorites(updatedFavorites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="loader-container">
+          <div className="loader-spinner"></div>
+
+          <div className="loader-text">
+            Loading Favorites...
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -67,7 +118,9 @@ function Favorites() {
               key={movie.id}
               className="movie-card"
               onClick={() =>
-                navigate(`/movie/${movie.id}`)
+                navigate(
+                  `/movie/${movie.id}`
+                )
               }
             >
               <img

@@ -8,12 +8,13 @@ function Profile() {
   const [userData, setUserData] = useState(null);
   const [topGenre, setTopGenre] = useState("N/A");
   const [topMood, setTopMood] = useState("N/A");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  loadProfile();
+    loadProfile();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const moodMap = {
     Comedy: "😊 Happy",
@@ -47,9 +48,14 @@ function Profile() {
 
   const loadProfile = async () => {
     try {
+      setLoading(true);
+
       const user = auth.currentUser;
 
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       const userRef = doc(
         db,
@@ -61,7 +67,10 @@ function Profile() {
         userRef
       );
 
-      if (!userSnap.exists()) return;
+      if (!userSnap.exists()) {
+        setLoading(false);
+        return;
+      }
 
       const data = userSnap.data();
 
@@ -72,7 +81,10 @@ function Profile() {
         ...(data.favorites || []),
       ];
 
-      if (savedMovies.length === 0) return;
+      if (savedMovies.length === 0) {
+        setLoading(false);
+        return;
+      }
 
       const genreCounter = {};
       const moodCounter = {};
@@ -105,47 +117,66 @@ function Profile() {
       }
 
       const genreWinner =
-        Object.keys(genreCounter).reduce(
-          (a, b) =>
-            genreCounter[a] >
-            genreCounter[b]
-              ? a
-              : b,
-          Object.keys(genreCounter)[0]
-        );
+        Object.keys(genreCounter).length > 0
+          ? Object.keys(genreCounter).reduce(
+              (a, b) =>
+                genreCounter[a] >
+                genreCounter[b]
+                  ? a
+                  : b
+            )
+          : "N/A";
 
       const moodWinner =
-        Object.keys(moodCounter).reduce(
-          (a, b) =>
-            moodCounter[a] >
-            moodCounter[b]
-              ? a
-              : b,
-          Object.keys(moodCounter)[0]
-        );
+        Object.keys(moodCounter).length > 0
+          ? Object.keys(moodCounter).reduce(
+              (a, b) =>
+                moodCounter[a] >
+                moodCounter[b]
+                  ? a
+                  : b
+            )
+          : "N/A";
 
-      setTopGenre(
-        genreWinner || "N/A"
-      );
+      setTopGenre(genreWinner);
+      setTopMood(moodWinner);
 
-      setTopMood(
-        moodWinner || "N/A"
-      );
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="loader-container">
+          <div className="loader-spinner"></div>
+
+          <div className="loader-text">
+            Loading Profile...
+          </div>
+        </div>
+      </>
+    );
+  }
+
   if (!userData) {
     return (
-      <div
-        style={{
-          color: "white",
-          padding: "30px",
-        }}
-      >
-        Loading...
-      </div>
+      <>
+        <Navbar />
+        <div
+          style={{
+            color: "white",
+            padding: "30px",
+          }}
+        >
+          No profile data found.
+        </div>
+      </>
     );
   }
 
