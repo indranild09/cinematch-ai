@@ -375,13 +375,16 @@ function MovieDetails() {
               onClick={() => navigate(`/movie/${movie.id}`)}
             >
               <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "https://via.placeholder.com/300x450?text=No+Image"
-                }
-                alt={movie.title}
-              />
+  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+  alt={movie.title}
+  style={{
+    width: "280px",
+    height: "420px",
+    objectFit: "cover",
+    borderRadius: "12px",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+  }}
+/>
 
               <div className="movie-info">
                 <h3>{movie.title}</h3>
