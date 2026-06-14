@@ -6,6 +6,7 @@ import {
   getMovieDetails,
   getRecommendations,
   getTrailer,
+  getWatchProviders,
 } from "../services/movieService";
 
 
@@ -21,30 +22,37 @@ function MovieDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [trailerKey, setTrailerKey] = useState(null);
+  const [providers, setProviders] = useState([]);
+  const [providerLink, setProviderLink] = useState("");
 
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
-  loadMovie();
+    loadMovie();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-const loadMovie = async () => {
-  try {
-    const movieData = await getMovieDetails(id);
-    setMovie(movieData);
+  const loadMovie = async () => {
+    try {
+      const movieData = await getMovieDetails(id);
+      setMovie(movieData);
 
-    const recData = await getRecommendations(id);
-    setRecommendations(recData.results || []);
+      const recData = await getRecommendations(id);
+      setRecommendations(recData.results || []);
 
-    const trailerData = await getTrailer(id);
-    setTrailerKey(trailerData.key);
-  } catch (error) {
-    console.error(error);
-  }
-};
+      const trailerData = await getTrailer(id);
+      setTrailerKey(trailerData.key);
+      const providerData =
+        await getWatchProviders(id);
+
+      setProviders(providerData.providers || []);
+      setProviderLink(providerData.link || "");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addToWatchlist = async () => {
     try {
@@ -90,47 +98,47 @@ const loadMovie = async () => {
   };
 
   const addToFavorites = async () => {
-  try {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-    if (!user) {
-      alert("Please login first");
-      return;
+      if (!user) {
+        alert("Please login first");
+        return;
+      }
+
+      const userRef = doc(db, "users", user.uid);
+
+      const userSnap = await getDoc(userRef);
+
+      const userData = userSnap.data();
+
+      const favorites = userData.favorites || [];
+
+      const alreadyExists = favorites.some(
+        (item) => item.id === movie.id
+      );
+
+      if (alreadyExists) {
+        alert("Movie already in favorites ⭐");
+        return;
+      }
+
+      await updateDoc(userRef, {
+        favorites: arrayUnion({
+          id: movie.id,
+          title: movie.title,
+          poster: movie.poster_path,
+          releaseDate: movie.release_date,
+        }),
+      });
+
+      alert("Added to Favorites ⭐");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
     }
-
-    const userRef = doc(db, "users", user.uid);
-
-    const userSnap = await getDoc(userRef);
-
-    const userData = userSnap.data();
-
-    const favorites = userData.favorites || [];
-
-    const alreadyExists = favorites.some(
-      (item) => item.id === movie.id
-    );
-
-    if (alreadyExists) {
-      alert("Movie already in favorites ⭐");
-      return;
-    }
-
-    await updateDoc(userRef, {
-      favorites: arrayUnion({
-        id: movie.id,
-        title: movie.title,
-        poster: movie.poster_path,
-        releaseDate: movie.release_date,
-      }),
-    });
-
-    alert("Added to Favorites ⭐");
-  } catch (error) {
-    console.error(error);
-    alert(error.message);
-  }
-};
+  };
 
   if (!movie) {
     return (
@@ -234,31 +242,87 @@ const loadMovie = async () => {
               >
                 ⭐ Add To Favorites
               </button>
-              
+
             </div>
             {trailerKey && (
-  <div
-    style={{
-      marginBottom: "40px",
-    }}
-  >
-    <h2>🎬 Official Trailer</h2>
+              <div
+                style={{
+                  marginBottom: "40px",
+                }}
+              >
+                <h2>🎬 Official Trailer</h2>
 
-    <iframe
-      width="50%"
-      height="500"
-      src={`https://www.youtube.com/embed/${trailerKey}`}
-      title="Movie Trailer"
-      frameBorder="0"
-      allowFullScreen
-      style={{
-        borderRadius: "10px",
-      }}
-    />
-  </div>
-)}
+                <iframe
+                  width="100%"
+                  height="500"
+                  src={`https://www.youtube.com/embed/${trailerKey}`}
+                  title="Movie Trailer"
+                  frameBorder="0"
+                  allowFullScreen
+                  style={{
+                    maxWidth: "900px",
+                    borderRadius: "10px",
+                  }}
+                />
+              </div>
+            )}
+
+            {providers.length > 0 && (
+              <div
+                style={{
+                  marginTop: "30px",
+                  marginBottom: "30px",
+                }}
+              >
+                <h2>📺 Available On</h2>
+                
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "15px",
+                    marginTop: "15px",
+                  }}
+                >
+                  {providers.map((provider) => (
+                    <div
+                      key={provider.provider_id}
+                      onClick={() =>
+                        window.open(
+                          providerLink,
+                          "_blank"
+                        )
+                      }
+                      style={{
+                        cursor: "pointer",
+                        textAlign: "center",
+                      }}
+                    >
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
+                        alt={provider.provider_name}
+                        style={{
+                          width: "70px",
+                          height: "70px",
+                          borderRadius: "12px",
+                        }}
+                      />
+
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          marginTop: "8px",
+                        }}
+                      >
+                        {provider.provider_name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-          
+
         </div>
 
         <h2>🎬 Movies Like This</h2>
@@ -287,13 +351,13 @@ const loadMovie = async () => {
                     ? movie.release_date.split("-")[0]
                     : "N/A"}
                 </p>
-                
+
               </div>
             </div>
           ))}
         </div>
       </div>
-      
+
     </>
   );
 }

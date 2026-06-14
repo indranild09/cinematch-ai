@@ -42,3 +42,11 @@ export const getTrailer = async (id) => {
 
   return res.json();
 };
+
+export const getWatchProviders = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/watch-providers/${id}`
+  );
+
+  return res.json();
+};
