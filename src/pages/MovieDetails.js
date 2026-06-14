@@ -1,4 +1,9 @@
+import {
+  ToastContainer,
+  toast,
+} from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -96,7 +101,7 @@ function MovieDetails() {
       const user = auth.currentUser;
 
       if (!user) {
-        alert("Please login first");
+        toast.error("Please login first");
         return;
       }
 
@@ -113,7 +118,7 @@ function MovieDetails() {
       );
 
       if (alreadyExists) {
-        alert("Movie already in watchlist ❤️");
+        toast.info("Movie already in watchlist ❤️");
         return;
       }
 
@@ -126,10 +131,10 @@ function MovieDetails() {
         }),
       });
 
-      alert("Added to Watchlist ❤️");
+      toast.success("Added to Watchlist ❤️");
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -139,7 +144,7 @@ function MovieDetails() {
       const user = auth.currentUser;
 
       if (!user) {
-        alert("Please login first");
+        toast.error("Please login first");
         return;
       }
 
@@ -156,7 +161,7 @@ function MovieDetails() {
       );
 
       if (alreadyExists) {
-        alert("Movie already in favorites ⭐");
+        toast.info("Movie already in favorites ⭐");
         return;
       }
 
@@ -169,10 +174,10 @@ function MovieDetails() {
         }),
       });
 
-      alert("Added to Favorites ⭐");
+      toast.success("Added to Favorites ⭐");
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -453,7 +458,11 @@ function MovieDetails() {
           ))}
         </div>
       </div>
-
+          <ToastContainer
+  position="top-right"
+  autoClose={2500}
+  theme="dark"
+/>
     </>
   );
 }

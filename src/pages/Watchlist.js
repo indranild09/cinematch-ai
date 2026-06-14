@@ -1,3 +1,9 @@
+import {
+  ToastContainer,
+  toast,
+} from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
@@ -51,7 +57,9 @@ function Watchlist() {
 
       setWatchlist(updatedWatchlist);
 
-      alert("Removed from Watchlist");
+      toast.success(
+  "Removed from Watchlist ❤️"
+);
     } catch (error) {
       console.error(error);
     }
@@ -167,6 +175,11 @@ function Watchlist() {
           ))}
         </div>
       </div>
+      <ToastContainer
+  position="top-right"
+  autoClose={2500}
+  theme="dark"
+/>
     </>
   );
 }

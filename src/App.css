@@ -461,3 +461,12 @@ h1 {
     transform: rotate(360deg);
   }
 }
+
+.Toastify__toast {
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.Toastify__progress-bar {
+  background: #e50914;
+}

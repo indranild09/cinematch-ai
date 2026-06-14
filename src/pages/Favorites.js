@@ -1,3 +1,9 @@
+import {
+  ToastContainer,
+  toast,
+} from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import Navbar from "../components/Navbar";
@@ -84,7 +90,13 @@ function Favorites() {
       });
 
       setFavorites(updatedFavorites);
+      toast.success(
+  "Removed from Favorites ⭐"
+);
     } catch (error) {
+      toast.error(
+  "Failed to remove favorite"
+);
       console.error(error);
     }
   };
@@ -143,6 +155,11 @@ function Favorites() {
           ))}
         </div>
       </div>
+      <ToastContainer
+  position="top-right"
+  autoClose={2500}
+  theme="dark"
+/>
     </>
   );
 }
