@@ -382,7 +382,7 @@ function MovieDetails() {
           }}
         >
           <h2>⭐ Reviews</h2>
-
+<br/>
           {reviews.length > 0 ? (
             <div className="reviews-container">
               {reviews.slice(0, 5).map((review) => (
