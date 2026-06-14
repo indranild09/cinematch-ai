@@ -7,6 +7,7 @@ import {
   searchMovies,
   getTrendingMovies,
   getPopularMovies,
+  getUpcomingMovies,
   getMoviesByGenre,
 } from "../services/movieService";
 
@@ -18,7 +19,7 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
-
+  const [upcoming, setUpcoming] = useState([]);
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedMoodGenres, setSelectedMoodGenres] = useState([]);
   const [moodMovies, setMoodMovies] = useState([]);
@@ -93,9 +94,11 @@ function Home() {
     try {
       const trendingData = await getTrendingMovies();
       const popularData = await getPopularMovies();
+      const upcomingData = await getUpcomingMovies();
 
       setTrending(trendingData.results || []);
       setPopular(popularData.results || []);
+      setUpcoming(upcomingData.results || []);
     } catch (error) {
       console.error(error);
     }
@@ -345,6 +348,14 @@ function Home() {
 
         <div className="movie-grid">
           {popular
+            .slice(0, 10)
+            .map(renderMovieCard)}
+        </div>
+
+        <h2>🎬 Upcoming Movies</h2>
+
+        <div className="movie-grid">
+          {upcoming
             .slice(0, 10)
             .map(renderMovieCard)}
         </div>

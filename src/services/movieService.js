@@ -50,3 +50,11 @@ export const getWatchProviders = async (id) => {
 
   return res.json();
 };
+
+export const getUpcomingMovies = async () => {
+  const res = await fetch(
+    `${API_BASE}/api/upcoming`
+  );
+
+  return res.json();
+};
