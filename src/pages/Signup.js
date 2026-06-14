@@ -1,12 +1,25 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+
 import { auth, db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+
+import {
+  doc,
+  setDoc,
+} from "firebase/firestore";
+
 import { useNavigate } from "react-router-dom";
 
+import "../App.css";
+
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
 
   const navigate = useNavigate();
 
@@ -20,88 +33,86 @@ function Signup() {
         );
 
       await setDoc(
-        doc(db, "users", userCredential.user.uid),
+        doc(
+          db,
+          "users",
+          userCredential.user.uid
+        ),
         {
           uid: userCredential.user.uid,
-          email: userCredential.user.email,
-          createdAt: new Date().toISOString(),
+          email:
+            userCredential.user.email,
+          createdAt:
+            new Date().toISOString(),
           watchlist: [],
-          favorites: []
+          favorites: [],
         }
       );
 
-      
-
-      alert("Account Created Successfully 🎉");
+      alert(
+        "Account Created Successfully 🎉"
+      );
 
       navigate("/login");
     } catch (error) {
-      console.error(error);
       alert(error.message);
     }
   };
 
   return (
-    <div
-      style={{
-        padding: "30px",
-        color: "white",
-        minHeight: "100vh",
-        background: "#0d0d0d"
-      }}
-    >
-      <h1>Signup</h1>
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-logo">
+          🎬
+        </div>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{
-          padding: "10px",
-          width: "300px"
-        }}
-      />
+        <div className="auth-title">
+          Join CineMatch AI
+        </div>
 
-      <br />
-      <br />
+        <div className="auth-subtitle">
+          Create your movie account
+        </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{
-          padding: "10px",
-          width: "300px"
-        }}
-      />
+        <input
+          className="auth-input"
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
 
-      <br />
-      <br />
+        <input
+          className="auth-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
 
-      <button
-        onClick={handleSignup}
-        style={{
-          padding: "10px 20px",
-          cursor: "pointer"
-        }}
-      >
-        Signup
-      </button>
-      <p style={{ marginTop: "15px" }}>
-  Already have an account?{" "}
-  <span
-    style={{
-      color: "#e50914",
-      cursor: "pointer",
-      fontWeight: "bold",
-    }}
-    onClick={() => navigate("/login")}
-  >
-    Login
-  </span>
-</p>
+        <button
+          className="auth-btn"
+          onClick={handleSignup}
+        >
+          Create Account
+        </button>
+
+        <p className="auth-footer">
+          Already have an account?{" "}
+          <span
+            className="auth-link"
+            onClick={() =>
+              navigate("/login")
+            }
+          >
+            Login
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
