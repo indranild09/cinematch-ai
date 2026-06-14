@@ -55,41 +55,42 @@ function Favorites() {
   };
 
   return (
-  <>
-    <Navbar />
+    <>
+      <Navbar />
 
-    <div className="watchlist-page">
-      <h1>⭐ Favorites</h1>
+      <div className="watchlist-page">
+        <h1>⭐ Favorites</h1>
 
-      <div className="movie-grid">
-        {favorites.map((movie) => (
-          <div
-            key={movie.id}
-            className="movie-card"
-            onClick={() =>
-              navigate(`/movie/${movie.id}`)
-            }
-          >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster}`}
-              alt={movie.title}
-            />
-
-            <h3>{movie.title}</h3>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                removeFavorite(movie.id);
-              }}
+        <div className="movie-grid">
+          {favorites.map((movie) => (
+            <div
+              key={movie.id}
+              className="movie-card"
+              onClick={() =>
+                navigate(`/movie/${movie.id}`)
+              }
             >
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster}`}
+                alt={movie.title}
+              />
+
+              <h3>{movie.title}</h3>
+
+              <button
+                className="remove-btn-fvt"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFavorite(movie.id);
+                }}
+              >
+                ⭐ Remove from Favorites
+              </button>
+            </div>
+          ))}
         </div>
-  </>
+      </div>
+    </>
   );
 }
 
