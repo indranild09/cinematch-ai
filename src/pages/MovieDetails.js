@@ -26,8 +26,10 @@ function MovieDetails() {
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
-    loadMovie();
-  }, [id]);
+  loadMovie();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]);
 
 const loadMovie = async () => {
   try {

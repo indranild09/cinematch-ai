@@ -10,8 +10,10 @@ function Profile() {
   const [topMood, setTopMood] = useState("N/A");
 
   useEffect(() => {
-    loadProfile();
-  }, []);
+  loadProfile();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const moodMap = {
     Comedy: "😊 Happy",
