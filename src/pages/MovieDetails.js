@@ -195,6 +195,7 @@ function MovieDetails() {
         <div
           style={{
             display: "flex",
+            alignItems: "flex-start",
             gap: "40px",
             marginBottom: "50px",
           }}
@@ -375,16 +376,16 @@ function MovieDetails() {
               onClick={() => navigate(`/movie/${movie.id}`)}
             >
               <img
-  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-  alt={movie.title}
-  style={{
-    width: "280px",
-    height: "420px",
-    objectFit: "cover",
-    borderRadius: "12px",
-    boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-  }}
-/>
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                style={{
+                  width: "280px",
+                  maxHeight: "420px",
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                }}
+              />
 
               <div className="movie-info">
                 <h3>{movie.title}</h3>
