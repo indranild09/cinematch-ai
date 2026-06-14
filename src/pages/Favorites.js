@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
+import Navbar from "../components/Navbar";
 import {
   doc,
   getDoc,
@@ -54,6 +55,9 @@ function Favorites() {
   };
 
   return (
+  <>
+    <Navbar />
+
     <div className="watchlist-page">
       <h1>⭐ Favorites</h1>
 
@@ -84,7 +88,8 @@ function Favorites() {
           </div>
         ))}
       </div>
-    </div>
+        </div>
+  </>
   );
 }
 
