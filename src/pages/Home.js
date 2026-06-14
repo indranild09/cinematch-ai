@@ -335,6 +335,8 @@ function Home() {
             </div>
           </>
         )}
+<br/>
+<br/>
 
         <h2>🔥 Trending This Week</h2>
 
@@ -351,6 +353,8 @@ function Home() {
             .slice(0, 10)
             .map(renderMovieCard)}
         </div>
+<br/>
+<br/>
 
         <h2>🎬 Upcoming Movies</h2>
 
