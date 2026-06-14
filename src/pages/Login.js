@@ -19,7 +19,7 @@ function Login() {
 
       alert("Login Successful");
 
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       alert(error.message);
     }
@@ -52,6 +52,19 @@ function Login() {
       <button onClick={handleLogin}>
         Login
       </button>
+      <p style={{ marginTop: "15px" }}>
+  Not a user?{" "}
+  <span
+    style={{
+      color: "#e50914",
+      cursor: "pointer",
+      fontWeight: "bold",
+    }}
+    onClick={() => navigate("/signup")}
+  >
+    Sign Up
+  </span>
+</p>
     </div>
   );
 }

@@ -89,6 +89,19 @@ function Signup() {
       >
         Signup
       </button>
+      <p style={{ marginTop: "15px" }}>
+  Already have an account?{" "}
+  <span
+    style={{
+      color: "#e50914",
+      cursor: "pointer",
+      fontWeight: "bold",
+    }}
+    onClick={() => navigate("/login")}
+  >
+    Login
+  </span>
+</p>
     </div>
   );
 }

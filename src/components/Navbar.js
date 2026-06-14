@@ -22,7 +22,7 @@ function Navbar() {
                 background: "#111",
             }}
         >
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
 
             <Link to="/profile">
                 Profile
