@@ -27,6 +27,25 @@ function MovieDetails() {
 
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
+  const getProviderUrl = (providerName) => {
+    const providerUrls = {
+      Netflix: "https://www.netflix.com",
+      "Amazon Prime Video": "https://www.primevideo.com",
+      "Amazon Prime Video with Ads": "https://www.primevideo.com",
+      "Amazon Video": "https://www.primevideo.com",
+      "Apple TV Store": "https://tv.apple.com",
+      YouTube: "https://www.youtube.com",
+      "Google Play Movies": "https://play.google.com/store/movies",
+      Zee5: "https://www.zee5.com",
+      "VI movies and tv": "https://www.myvi.in/movies-and-tv",
+      "Sony Pictures Amazon Channel": "https://www.primevideo.com",
+      "Disney Plus Hotstar": "https://www.hotstar.com/in",
+      JioHotstar: "https://www.hotstar.com/in",
+      SonyLIV: "https://www.sonyliv.com",
+    };
+
+    return providerUrls[providerName] || providerLink;
+  };
 
   useEffect(() => {
     loadMovie();
@@ -268,76 +287,80 @@ function MovieDetails() {
               </div>
             )}
 
-           <div
-  style={{
-    marginTop: "30px",
-    marginBottom: "30px",
-  }}
->
-  <h2>
-    📺 Available On ({providers.length})
-  </h2>
+            <div
+              style={{
+                marginTop: "30px",
+                marginBottom: "30px",
+              }}
+            >
+              <h2>
+                📺 Available On ({providers.length})
+              </h2>
 
-  {providers.length > 0 ? (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "20px",
-        marginTop: "15px",
-      }}
-    >
-      {providers.map((provider) => (
-        <div
-          key={provider.provider_id}
-          onClick={() =>
-            window.open(
-              providerLink,
-              "_blank"
-            )
-          }
-          style={{
-            cursor: "pointer",
-            textAlign: "center",
-            background: "#1f1f1f",
-            padding: "10px",
-            borderRadius: "12px",
-            minWidth: "100px",
-          }}
-        >
-          <img
-            src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
-            alt={provider.provider_name}
-            style={{
-              width: "70px",
-              height: "70px",
-              borderRadius: "12px",
-              objectFit: "cover",
-            }}
-          />
+              {providers.length > 0 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "20px",
+                    marginTop: "15px",
+                  }}
+                >
+                  {providers.map((provider) => (
+                    <div
+                      key={provider.provider_id}
+                      onClick={() =>
+                        window.open(
+                          getProviderUrl(
+                            provider.provider_name
+                          ),
+                          "_blank"
+                        )
 
-          <p
-            style={{
-              fontSize: "12px",
-              marginTop: "8px",
-            }}
-          >
-            {provider.provider_name}
-          </p>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <p
-      style={{
-        color: "#aaa",
-        marginTop: "10px",
-      }}
-    >
-      Streaming availability not found in India.
-    </p>
-  )}
-</div>
+                      }
+                      style={{
+                        cursor: "pointer",
+                        textAlign: "center",
+                        background: "#1f1f1f",
+                        padding: "10px",
+                        borderRadius: "12px",
+                        minWidth: "100px",
+                        transition: "0.3s",
+                      }}
+                    >
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
+                        alt={provider.provider_name}
+                        style={{
+                          width: "70px",
+                          height: "70px",
+                          borderRadius: "12px",
+                          objectFit: "cover",
+                        }}
+                      />
+
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          marginTop: "8px",
+                        }}
+                      >
+                        {provider.provider_name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p
+                  style={{
+                    color: "#aaa",
+                    marginTop: "10px",
+                  }}
+                >
+                  Streaming availability not found in India.
+                </p>
+              )}
+            </div>
           </div>
 
         </div>
