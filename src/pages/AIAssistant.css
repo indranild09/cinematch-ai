@@ -114,9 +114,8 @@
   display: flex;
   flex-direction: column;
 
-  gap: 16px;
+  gap: 24px;
 }
-
 /* ==========================
    USER MESSAGE
 ========================== */
@@ -320,4 +319,24 @@
 
 .message-content br {
   display: none;
+}
+
+.user-message {
+  margin-bottom: 8px;
+}
+
+.user-message {
+  margin-bottom: 10px;
+}
+
+.ai-message {
+  margin-bottom: 20px;
+}
+
+.chat-container {
+  gap: 0;
+}
+
+.chat-pair {
+  margin-bottom: 24px;
 }
