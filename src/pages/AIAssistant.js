@@ -171,7 +171,7 @@ function AIAssistant() {
 
         <div
           style={{
-            marginTop: "10px",
+            marginTop: "30px",
           }}
         >
           {messages.map(
