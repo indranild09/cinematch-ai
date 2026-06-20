@@ -1,10 +1,144 @@
+/* ==========================
+   AI PAGE
+========================== */
+
+.ai-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+  color: white;
+}
+
+.ai-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ==========================
+   INPUT
+========================== */
+
+.ai-input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  background: #1f1f1f;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.ai-input:focus {
+  border-color: #e50914;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.ai-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #e50914;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.ai-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.prompt-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* ==========================
+   THINKING
+========================== */
+
+.ai-thinking {
+  margin-top: 20px;
+  color: #e50914;
+  font-weight: bold;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ==========================
+   CHAT
+========================== */
+
+.chat-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-message {
+  align-self: flex-end;
+  max-width: 75%;
+
+  background: #2563eb;
+
+  padding: 15px;
+  border-radius: 16px;
+  color: white;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.ai-message {
+  align-self: flex-start;
+  max-width: 85%;
+
+  background: #1f1f1f;
+
+  padding: 18px;
+  border-radius: 16px;
+
+  border-left: 4px solid #e50914;
+
+  color: white;
+
+  white-space: pre-wrap;
+  line-height: 1.8;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.ai-message strong,
+.user-message strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* ==========================
+   LEGACY CARD
+   (Keep for compatibility)
+========================== */
+
 .ai-response-card {
   margin-top: 30px;
   background: #1f1f1f;
   padding: 25px;
   border-radius: 16px;
   border: 1px solid #333;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
 .ai-response-card h2 {
@@ -18,34 +152,21 @@
   color: #eee;
 }
 
-.ai-input {
-  width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #444;
-  background: #1f1f1f;
-  color: white;
-  font-size: 16px;
-}
+/* ==========================
+   MOBILE
+========================== */
 
-.ai-btn {
-  margin-top: 15px;
-  padding: 14px 22px;
-  border: none;
-  border-radius: 12px;
-  background: #e50914;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 15px;
-}
+@media (max-width: 768px) {
+  .ai-page {
+    padding: 15px;
+  }
 
-.ai-btn:hover {
-  opacity: 0.9;
-}
+  .user-message,
+  .ai-message {
+    max-width: 95%;
+  }
 
-.ai-thinking {
-  margin-top: 20px;
-  color: #e50914;
-  font-weight: bold;
+  .prompt-buttons {
+    flex-direction: column;
+  }
 }
