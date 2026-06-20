@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import "./AIAssistant.css";
+import ReactMarkdown from "react-markdown";
 
 function AIAssistant() {
   const [question, setQuestion] =
@@ -191,15 +192,11 @@ function AIAssistant() {
                     : "🤖 CineMatch AI"}
                 </strong>
 
-                <div
-                  style={{
-                    marginTop: "10px",
-                    whiteSpace:
-                      "pre-wrap",
-                  }}
-                >
-                  {message.text}
-                </div>
+                <div className="message-content">
+  <ReactMarkdown>
+    {message.text}
+  </ReactMarkdown>
+</div>
               </div>
             )
           )}
