@@ -164,7 +164,7 @@
 
   color: white;
 
-  padding: 18px 20px;
+  padding: 8px 20px;
 
   border-radius: 20px 20px 20px 6px;
 
@@ -195,14 +195,14 @@
 }
 
 .ai-message p {
-  margin-bottom: 12px;
+  margin-bottom: 5px;
 }
 
 .ai-message h1,
 .ai-message h2,
 .ai-message h3 {
   color: #e50914;
-  margin-bottom: 12px;
+  margin-bottom: 5px;
 }
 
 .ai-message code {
