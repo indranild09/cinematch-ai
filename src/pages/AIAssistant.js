@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import "./AIAssistant.css";
 
 function AIAssistant() {
   const [question, setQuestion] =
@@ -58,46 +59,37 @@ function AIAssistant() {
         </h1>
 
         <input
-          type="text"
-          value={question}
-          onChange={(e) =>
-            setQuestion(e.target.value)
-          }
-          placeholder="Ask for movie recommendations..."
-          style={{
-            width: "100%",
-            padding: "15px",
-            marginTop: "20px",
-          }}
-        />
+  type="text"
+  value={question}
+  onChange={(e) =>
+    setQuestion(e.target.value)
+  }
+  placeholder="Ask CineMatch AI..."
+  className="ai-input"
+/>
 
         <button
-          onClick={askAI}
-          style={{
-            marginTop: "15px",
-            padding: "12px 20px",
-          }}
-        >
-          Ask AI
-        </button>
+  className="ai-btn"
+  onClick={askAI}
+>
+  🚀 Ask AI
+</button>
 
         {loading && (
-          <p>
-            🤖 Thinking...
-          </p>
-        )}
+  <div className="ai-thinking">
+    🤖 CineMatch AI is thinking...
+  </div>
+)}
 
         {answer && (
-          <div
-            style={{
-              marginTop: "30px",
-              whiteSpace:
-                "pre-wrap",
-            }}
-          >
-            {answer}
-          </div>
-        )}
+  <div className="ai-response-card">
+    <h2>🤖 CineMatch AI</h2>
+
+    <div className="ai-response-text">
+      {answer}
+    </div>
+  </div>
+)}
       </div>
     </>
   );
