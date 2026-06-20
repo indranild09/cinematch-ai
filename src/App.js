@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import Favorites from "./pages/Favorites";
-
+import AIAssistant from "./pages/AIAssistant";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -71,6 +71,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+  path="/assistant"
+  element={
+    <ProtectedRoute>
+      <AIAssistant />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

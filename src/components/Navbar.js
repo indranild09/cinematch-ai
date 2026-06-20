@@ -40,6 +40,13 @@ function Navbar() {
         >
           ⭐ Favorites
         </Link>
+
+        <Link
+  to="/assistant"
+  className="nav-btn"
+>
+  🤖 AI Assistant
+</Link>
       </div>
 
       {/* Right Side */}
