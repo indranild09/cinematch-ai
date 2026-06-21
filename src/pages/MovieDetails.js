@@ -22,12 +22,13 @@ import { db } from "../firebase";
 import {
   doc,
   updateDoc,
-  arrayUnion, getDoc,
+   getDoc, arrayUnion,
 } from "firebase/firestore";
 
 function MovieDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const auth = getAuth();
   const [trailerKey, setTrailerKey] = useState(null);
   const [providers, setProviders] = useState([]);
   const [providerLink, setProviderLink] = useState("");
@@ -67,6 +68,7 @@ function MovieDetails() {
     setLoading(true);
       const movieData = await getMovieDetails(id);
       setMovie(movieData);
+      saveRecentView(movieData);
 
       const recData = await getRecommendations(id);
       setRecommendations(recData.results || []);
@@ -94,7 +96,67 @@ function MovieDetails() {
       console.error(error);
     }
   };
+const saveRecentView =
+  async (movieData) => {
+    try {
+      const user =
+        auth.currentUser;
 
+      if (!user) return;
+
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+      const userSnap =
+        await getDoc(userRef);
+
+      const userData =
+        userSnap.data() || {};
+
+      let recentViews =
+        userData.recentViews || [];
+
+      recentViews =
+        recentViews.filter(
+          (item) =>
+            !(
+              item.id ===
+                movieData.id &&
+              item.type ===
+                "movie"
+            )
+        );
+
+      recentViews.unshift({
+        id: movieData.id,
+        type: "movie",
+        title:
+          movieData.title,
+        poster:
+          movieData.poster_path,
+        viewedAt:
+          Date.now(),
+      });
+
+      recentViews =
+        recentViews.slice(
+          0,
+          20
+        );
+
+      await updateDoc(
+        userRef,
+        {
+          recentViews,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const addToWatchlist = async () => {
     try {
       const auth = getAuth();

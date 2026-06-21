@@ -11,6 +11,16 @@ import {
 } from "../services/movieService";
 
 import "./TVDetails.css";
+import {
+  auth,
+  db,
+} from "../firebase";
+
+import {
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 function TVDetails() {
     const { id } = useParams();
@@ -34,7 +44,67 @@ function TVDetails() {
 
     const [providerLink, setProviderLink] =
         useState(null);
+    const saveRecentView =
+  async (showData) => {
+    try {
+      const user =
+        auth.currentUser;
 
+      if (!user) return;
+
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+      const userSnap =
+        await getDoc(userRef);
+
+      const userData =
+        userSnap.data() || {};
+
+      let recentViews =
+        userData.recentViews || [];
+
+      recentViews =
+        recentViews.filter(
+          (item) =>
+            !(
+              item.id ===
+                showData.id &&
+              item.type ===
+                "tv"
+            )
+        );
+
+      recentViews.unshift({
+        id: showData.id,
+        type: "tv",
+        title:
+          showData.name,
+        poster:
+          showData.poster_path,
+        viewedAt:
+          Date.now(),
+      });
+
+      recentViews =
+        recentViews.slice(
+          0,
+          20
+        );
+
+      await updateDoc(
+        userRef,
+        {
+          recentViews,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
     useEffect(() => {
         const loadTV = async () => {
             try {
@@ -53,6 +123,9 @@ function TVDetails() {
                     await getTVWatchProviders(id);
 
                 setShow(tvData);
+saveRecentView(tvData);
+                // save to user's recent views
+                await saveRecentView(tvData);
 
                 setCast(
                     castData.cast || []

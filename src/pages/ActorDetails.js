@@ -9,6 +9,16 @@ import {
 } from "../services/movieService";
 
 import "./ActorDetails.css";
+import {
+  auth,
+  db,
+} from "../firebase";
+
+import {
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 function ActorDetails() {
   const { id } = useParams();
@@ -25,7 +35,67 @@ function ActorDetails() {
 
   const [loading, setLoading] =
     useState(true);
+const saveRecentView =
+  async (actorData) => {
+    try {
+      const user =
+        auth.currentUser;
 
+      if (!user) return;
+
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+      const userSnap =
+        await getDoc(userRef);
+
+      const userData =
+        userSnap.data() || {};
+
+      let recentViews =
+        userData.recentViews || [];
+
+      recentViews =
+        recentViews.filter(
+          (item) =>
+            !(
+              item.id ===
+                actorData.id &&
+              item.type ===
+                "actor"
+            )
+        );
+
+      recentViews.unshift({
+        id: actorData.id,
+        type: "actor",
+        title:
+          actorData.name,
+        poster:
+          actorData.profile_path,
+        viewedAt:
+          Date.now(),
+      });
+
+      recentViews =
+        recentViews.slice(
+          0,
+          20
+        );
+
+      await updateDoc(
+        userRef,
+        {
+          recentViews,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 useEffect(() => {
   const loadActor = async () => {
     try {
@@ -41,7 +111,7 @@ useEffect(() => {
         await getActorSocial(id);
 
       setActor(actorData);
-
+        saveRecentView(actorData);
       setMovies(
         movieData.cast?.slice(0, 20) || []
       );
