@@ -11,6 +11,7 @@ import Favorites from "./pages/Favorites";
 import AIAssistant from "./pages/AIAssistant";
 import { AuthProvider } from "./context/AuthContext";
 import ActorDetails from "./pages/ActorDetails";
+import TVDetails from "./pages/TVDetails";
 
 function App() {
   return (
@@ -87,6 +88,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ActorDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tv/:id"
+            element={
+              <ProtectedRoute>
+                <TVDetails />
               </ProtectedRoute>
             }
           />

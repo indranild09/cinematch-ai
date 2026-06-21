@@ -130,3 +130,36 @@ export const getTopRatedTV = async () => {
 
   return res.json();
 };
+
+export const getTVDetails = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/tv/${id}`
+  );
+
+  return res.json();
+};
+
+export const getTVCast = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/tv-cast/${id}`
+  );
+
+  return res.json();
+};
+
+export const getTVTrailer = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/tv-trailer/${id}`
+  );
+
+  return res.json();
+};
+
+export const getTVRecommendations =
+  async (id) => {
+    const res = await fetch(
+      `${API_BASE}/api/tv-recommendations/${id}`
+    );
+
+    return res.json();
+  };
