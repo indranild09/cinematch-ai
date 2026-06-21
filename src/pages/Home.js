@@ -242,10 +242,16 @@ function Home() {
   );
 
   const renderTVCard = (show) => (
-    <div
-      className="movie-card"
-      key={show.id}
-    >
+  <div
+    className="movie-card"
+    key={show.id}
+    onClick={() =>
+      navigate(`/tv/${show.id}`)
+    }
+    style={{
+      cursor: "pointer",
+    }}
+  >
       <img
         src={
           show.poster_path
