@@ -323,96 +323,111 @@ const loadSuggestions =
         <h1>CineMatch AI 🎬</h1>
 
         <div className="search-container">
-          <input
-  value={searchTerm}
-  onChange={(e) => {
-    setSearchTerm(
-      e.target.value
-    );
+  <div className="search-wrapper">
 
-    loadSuggestions(
-      e.target.value
-    );
-  }}
-  placeholder="Search Movies, TV Shows & Actors..."
-/>
-{suggestions.length > 0 && (
-  <div
-    style={{
-      background: "#1a1a1a",
-      borderRadius: "10px",
-      width: "300px",
-      margin: "0 auto",
-      textAlign: "left",
-      position: "absolute",
-      zIndex: 999,
-    }}
-  >
-    {suggestions.map(
-      (item) => (
-        <div
-          key={`${item.media_type}-${item.id}`}
-          style={{
-            padding: "10px",
-            cursor: "pointer",
-            borderBottom:
-              "1px solid #333",
-          }}
-          onClick={() => {
-            setSuggestions(
-              []
-            );
+    <input
+      value={searchTerm}
+      onChange={(e) => {
+        setSearchTerm(
+          e.target.value
+        );
 
-            if (
-              item.media_type ===
-              "movie"
-            ) {
-              navigate(
-                `/movie/${item.id}`
-              );
-            }
+        loadSuggestions(
+          e.target.value
+        );
+      }}
+      placeholder="Search Movies, TV Shows & Actors..."
+    />
 
-            if (
-              item.media_type ===
-              "tv"
-            ) {
-              navigate(
-                `/tv/${item.id}`
-              );
-            }
+    <button
+      onClick={searchMovieHandler}
+    >
+      Search
+    </button>
 
-            if (
-              item.media_type ===
-              "person"
-            ) {
-              navigate(
-                `/actor/${item.id}`
-              );
-            }
-          }}
-        >
-          {item.media_type ===
-            "movie" &&
-            "🎬 "}
-          {item.media_type ===
-            "tv" &&
-            "📺 "}
-          {item.media_type ===
-            "person" &&
-            "👤 "}
+    {suggestions.length > 0 && (
+      <div className="suggestions-dropdown">
 
-          {item.title ||
-            item.name}
-        </div>
-      )
+        {suggestions.map(
+          (item) => (
+            <div
+              key={`${item.media_type}-${item.id}`}
+              className="suggestion-item"
+              onClick={() => {
+
+                setSuggestions([]);
+
+                if (
+                  item.media_type ===
+                  "movie"
+                ) {
+                  navigate(
+                    `/movie/${item.id}`
+                  );
+                }
+
+                if (
+                  item.media_type ===
+                  "tv"
+                ) {
+                  navigate(
+                    `/tv/${item.id}`
+                  );
+                }
+
+                if (
+                  item.media_type ===
+                  "person"
+                ) {
+                  navigate(
+                    `/actor/${item.id}`
+                  );
+                }
+              }}
+            >
+
+              <img
+                src={`https://image.tmdb.org/t/p/w92${
+                  item.poster_path ||
+                  item.profile_path
+                }`}
+                alt={
+                  item.title ||
+                  item.name
+                }
+              />
+
+              <div className="suggestion-content">
+
+                <strong>
+                  {item.title ||
+                    item.name}
+                </strong>
+
+                <p>
+                  {item.media_type ===
+                    "movie" &&
+                    "🎬 Movie"}
+
+                  {item.media_type ===
+                    "tv" &&
+                    "📺 TV Show"}
+
+                  {item.media_type ===
+                    "person" &&
+                    "👤 Actor"}
+                </p>
+
+              </div>
+            </div>
+          )
+        )}
+
+      </div>
     )}
-  </div>
-)}
 
-          <button onClick={searchMovieHandler}>
-            Search
-          </button>
-        </div>
+  </div>
+</div>
 
         {/* MOOD EXPLORER */}
 

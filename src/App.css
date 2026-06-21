@@ -470,3 +470,58 @@ h1 {
 .Toastify__progress-bar {
   background: #e50914;
 }
+
+.search-wrapper {
+  position: relative;
+  width: 700px;
+  margin: 0 auto;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.suggestion-item:hover {
+  background: #222;
+}
+
+.suggestion-item img {
+  width: 50px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.suggestion-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion-content strong {
+  color: white;
+  font-size: 15px;
+}
+
+.suggestion-content p {
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 4px;
+}
