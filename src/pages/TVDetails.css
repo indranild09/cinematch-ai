@@ -47,3 +47,30 @@
     width: 100%;
   }
 }
+
+.tv-trailer {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.movie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.movie-card {
+  width: 180px;
+  cursor: pointer;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.movie-info {
+  margin-top: 8px;
+}
