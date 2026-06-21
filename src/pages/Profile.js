@@ -1,14 +1,24 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+} from "react-router-dom";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import { getMovieDetails } from "../services/movieService";
 
 function Profile() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [topGenre, setTopGenre] = useState("N/A");
   const [topMood, setTopMood] = useState("N/A");
   const [loading, setLoading] = useState(true);
+  const [recentViews, setRecentViews] =
+  useState([]);
 
   useEffect(() => {
     loadProfile();
@@ -75,7 +85,9 @@ function Profile() {
       const data = userSnap.data();
 
       setUserData(data);
-
+      setRecentViews(
+  data.recentViews || []
+);
       const savedMovies = [
         ...(data.watchlist || []),
         ...(data.favorites || []),
@@ -196,6 +208,11 @@ function Profile() {
   const totalSaved =
     watchlistCount +
     favoriteCount;
+    const sortedRecentViews =
+  [...recentViews].sort(
+    (a, b) =>
+      b.viewedAt - a.viewedAt
+  );
 
   return (
     <>
@@ -240,6 +257,88 @@ function Profile() {
             <p>{topMood}</p>
           </div>
         </div>
+{recentViews.length > 0 && (
+  <>
+    <h2
+      style={{
+        marginTop: "50px",
+      }}
+    >
+      🕒 Recently Viewed
+    </h2>
+
+    <div className="movie-grid">
+      {sortedRecentViews.map(
+        (item) => (
+          <div
+            key={`${item.type}-${item.id}`}
+            className="movie-card"
+            onClick={() => {
+              if (
+                item.type ===
+                "movie"
+              ) {
+                navigate(
+                  `/movie/${item.id}`
+                );
+              }
+
+              if (
+                item.type ===
+                "tv"
+              ) {
+                navigate(
+                  `/tv/${item.id}`
+                );
+              }
+
+              if (
+                item.type ===
+                "actor"
+              ) {
+                navigate(
+                  `/actor/${item.id}`
+                );
+              }
+            }}
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <img
+  src={
+    item.poster
+      ? `https://image.tmdb.org/t/p/w500${item.poster}`
+      : "https://via.placeholder.com/300x450?text=No+Image"
+  }
+  alt={item.title}
+/>
+
+            <div className="movie-info">
+              <h3>
+                {item.title}
+              </h3>
+
+              <p>
+                {item.type ===
+                  "movie" &&
+                  "🎬 Movie"}
+
+                {item.type ===
+                  "tv" &&
+                  "📺 TV Show"}
+
+                {item.type ===
+                  "actor" &&
+                  "👤 Actor"}
+              </p>
+            </div>
+          </div>
+        )
+      )}
+    </div>
+  </>
+)}
       </div>
     </>
   );
