@@ -135,11 +135,11 @@ useEffect(() => {
 
 <h2>🎭 Cast</h2>
 
-<div className="movie-grid">
+<div className="tv-grid">
   {cast.slice(0, 12).map((actor) => (
     <div
       key={actor.id}
-      className="movie-card"
+      className="tv-card"
       onClick={() =>
         navigate(`/actor/${actor.id}`)
       }
@@ -169,13 +169,13 @@ useEffect(() => {
 
 <h2>📺 Similar TV Shows</h2>
 
-<div className="movie-grid">
+<div className="tv-grid">
   {recommendations
     .slice(0, 8)
     .map((show) => (
       <div
         key={show.id}
-        className="movie-card"
+        className="tv-card"
         onClick={() =>
           navigate(`/tv/${show.id}`)
         }
