@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import { searchAll } from "../services/movieService";
 
 import {
   
@@ -37,7 +37,8 @@ function Home() {
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedMoodGenres, setSelectedMoodGenres] = useState([]);
   const [moodMovies, setMoodMovies] = useState([]);
-
+const [suggestions, setSuggestions] =
+  useState([]);
   const genres = [
     { id: 28, name: "Action" },
     { id: 12, name: "Adventure" },
@@ -152,6 +153,37 @@ function Home() {
     )}`
   );
 };
+
+const loadSuggestions =
+  async (value) => {
+    if (!value.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    try {
+      const data =
+        await searchAll(value);
+
+      setSuggestions(
+        (data.results || [])
+          .filter(
+            (item) =>
+              (item.media_type ===
+                "movie" ||
+                item.media_type ===
+                  "tv" ||
+                item.media_type ===
+                  "person") &&
+              (item.poster_path ||
+                item.profile_path)
+          )
+          .slice(0, 6)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleGenreClick = async (genreId, genreName) => {
     try {
       const data = await getMoviesByGenre(genreId);
@@ -292,18 +324,90 @@ function Home() {
 
         <div className="search-container">
           <input
-            type="text"
-            placeholder="Search Movies, TV Shows & Actors..."
-            value={searchTerm}
-            onChange={(e) =>
-              setSearchTerm(e.target.value)
+  value={searchTerm}
+  onChange={(e) => {
+    setSearchTerm(
+      e.target.value
+    );
+
+    loadSuggestions(
+      e.target.value
+    );
+  }}
+  placeholder="Search Movies, TV Shows & Actors..."
+/>
+{suggestions.length > 0 && (
+  <div
+    style={{
+      background: "#1a1a1a",
+      borderRadius: "10px",
+      width: "300px",
+      margin: "0 auto",
+      textAlign: "left",
+      position: "absolute",
+      zIndex: 999,
+    }}
+  >
+    {suggestions.map(
+      (item) => (
+        <div
+          key={`${item.media_type}-${item.id}`}
+          style={{
+            padding: "10px",
+            cursor: "pointer",
+            borderBottom:
+              "1px solid #333",
+          }}
+          onClick={() => {
+            setSuggestions(
+              []
+            );
+
+            if (
+              item.media_type ===
+              "movie"
+            ) {
+              navigate(
+                `/movie/${item.id}`
+              );
             }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                searchMovieHandler();
-              }
-            }}
-          />
+
+            if (
+              item.media_type ===
+              "tv"
+            ) {
+              navigate(
+                `/tv/${item.id}`
+              );
+            }
+
+            if (
+              item.media_type ===
+              "person"
+            ) {
+              navigate(
+                `/actor/${item.id}`
+              );
+            }
+          }}
+        >
+          {item.media_type ===
+            "movie" &&
+            "🎬 "}
+          {item.media_type ===
+            "tv" &&
+            "📺 "}
+          {item.media_type ===
+            "person" &&
+            "👤 "}
+
+          {item.title ||
+            item.name}
+        </div>
+      )
+    )}
+  </div>
+)}
 
           <button onClick={searchMovieHandler}>
             Search
