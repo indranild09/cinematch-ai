@@ -163,3 +163,12 @@ export const getTVRecommendations =
 
     return res.json();
   };
+
+export const getTVWatchProviders =
+  async (id) => {
+    const res = await fetch(
+      `${API_BASE}/api/tv-watch-providers/${id}`
+    );
+
+    return res.json();
+  };

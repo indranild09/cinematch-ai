@@ -7,6 +7,7 @@ import {
   getTVCast,
   getTVTrailer,
   getTVRecommendations,
+  getTVWatchProviders,
 } from "../services/movieService";
 
 import "./TVDetails.css";
@@ -28,6 +29,12 @@ const [trailerKey, setTrailerKey] =
 const [recommendations, setRecommendations] =
   useState([]);
 
+const [providers, setProviders] =
+  useState([]);
+
+const [providerLink, setProviderLink] =
+  useState(null);
+
 useEffect(() => {
   const loadTV = async () => {
     try {
@@ -42,6 +49,8 @@ useEffect(() => {
 
       const recData =
         await getTVRecommendations(id);
+    const providerData =
+  await getTVWatchProviders(id);
 
       setShow(tvData);
 
@@ -56,6 +65,14 @@ useEffect(() => {
       setRecommendations(
         recData.results || []
       );
+
+      setProviders(
+  providerData.providers || []
+);
+
+setProviderLink(
+  providerData.link
+);
     } catch (error) {
       console.error(error);
     }
@@ -130,7 +147,56 @@ useEffect(() => {
     />
   </>
 )}
+<h2>📺 Available On</h2>
 
+<div
+  style={{
+    display: "flex",
+    gap: "15px",
+    flexWrap: "wrap",
+    marginTop: "15px",
+    marginBottom: "30px",
+  }}
+>
+  {providers.map(
+    (provider) => (
+      <div
+        key={provider.provider_id}
+      >
+        <img
+          src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
+          alt={
+            provider.provider_name
+          }
+          title={
+            provider.provider_name
+          }
+          style={{
+            borderRadius: "10px",
+          }}
+        />
+      </div>
+    )
+  )}
+</div>
+
+{providerLink && (
+  <a
+    href={providerLink}
+    target="_blank"
+    rel="noreferrer"
+    style={{
+      color: "#4da6ff",
+      textDecoration: "none",
+      fontWeight: "bold",
+    }}
+  >
+    Watch Now →
+  </a>
+)}
+
+<br />
+<br />
 <br />
 <br />
 <h2>🎭 Cast</h2>
