@@ -107,3 +107,26 @@ export const getActorSocial = async (id) => {
   return res.json();
 };
 
+export const getTrendingTV = async () => {
+  const res = await fetch(
+    `${API_BASE}/api/trending-tv`
+  );
+
+  return res.json();
+};
+
+export const getPopularTV = async () => {
+  const res = await fetch(
+    `${API_BASE}/api/popular-tv`
+  );
+
+  return res.json();
+};
+
+export const getTopRatedTV = async () => {
+  const res = await fetch(
+    `${API_BASE}/api/top-rated-tv`
+  );
+
+  return res.json();
+};

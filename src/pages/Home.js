@@ -11,6 +11,9 @@ import {
   getUpcomingMovies,
   getTopRatedMovies,
   getMoviesByGenre,
+  getTrendingTV,
+  getPopularTV,
+  getTopRatedTV,
 } from "../services/movieService";
 
 function Home() {
@@ -23,6 +26,14 @@ function Home() {
   const [popular, setPopular] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [topRated, setTopRated] = useState([]);
+  const [trendingTV, setTrendingTV] =
+    useState([]);
+
+  const [popularTV, setPopularTV] =
+    useState([]);
+
+  const [topRatedTV, setTopRatedTV] =
+    useState([]);
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedMoodGenres, setSelectedMoodGenres] = useState([]);
   const [moodMovies, setMoodMovies] = useState([]);
@@ -89,6 +100,8 @@ function Home() {
     ],
   };
 
+
+
   useEffect(() => {
     loadHomeData();
   }, []);
@@ -100,11 +113,29 @@ function Home() {
       const popularData = await getPopularMovies();
       const upcomingData = await getUpcomingMovies();
       const topRatedData = await getTopRatedMovies();
+      const trendingTVData =
+        await getTrendingTV();
 
+      const popularTVData =
+        await getPopularTV();
+
+      const topRatedTVData =
+        await getTopRatedTV();
       setTrending(trendingData.results || []);
       setPopular(popularData.results || []);
       setUpcoming(upcomingData.results || []);
       setTopRated(topRatedData.results || []);
+      setTrendingTV(
+        trendingTVData.results || []
+      );
+
+      setPopularTV(
+        popularTVData.results || []
+      );
+
+      setTopRatedTV(
+        topRatedTVData.results || []
+      );
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -113,20 +144,20 @@ function Home() {
   };
 
   const searchMovieHandler = async () => {
-  if (!searchTerm.trim()) return;
+    if (!searchTerm.trim()) return;
 
-  try {
-    const results = await searchMovies(searchTerm);
+    try {
+      const results = await searchMovies(searchTerm);
 
-    if (Array.isArray(results)) {
-      setMovies(results);
-    } else {
-      setMovies(results.results || []);
+      if (Array.isArray(results)) {
+        setMovies(results);
+      } else {
+        setMovies(results.results || []);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
 
   const handleGenreClick = async (genreId, genreName) => {
     try {
@@ -210,21 +241,47 @@ function Home() {
     </div>
   );
 
-  if (loading) {
-  return (
-    <>
-      <Navbar />
+  const renderTVCard = (show) => (
+    <div
+      className="movie-card"
+      key={show.id}
+    >
+      <img
+        src={
+          show.poster_path
+            ? `https://image.tmdb.org/t/p/w500${show.poster_path}`
+            : "https://via.placeholder.com/300x450"
+        }
+        alt={show.name}
+      />
 
-      <div className="loader-container">
-        <div className="loader-spinner"></div>
+      <div className="movie-info">
+        <h3>{show.name}</h3>
 
-        <div className="loader-text">
-          Loading Movies...
-        </div>
+        <p>
+          {show.first_air_date
+            ? show.first_air_date.split("-")[0]
+            : "N/A"}
+        </p>
       </div>
-    </>
+    </div>
   );
-}
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="loader-container">
+          <div className="loader-spinner"></div>
+
+          <div className="loader-text">
+            Loading Movies...
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -397,6 +454,39 @@ function Home() {
           {upcoming
             .slice(0, 10)
             .map(renderMovieCard)}
+        </div>
+
+        <br />
+        <br />
+
+        <h2>📺 Trending TV Shows</h2>
+
+        <div className="movie-grid">
+          {trendingTV
+            .slice(0, 10)
+            .map(renderTVCard)}
+        </div>
+
+        <br />
+        <br />
+
+        <h2>📺 Top Rated TV Shows</h2>
+
+        <div className="movie-grid">
+          {topRatedTV
+            .slice(0, 10)
+            .map(renderTVCard)}
+        </div>
+
+        <br />
+        <br />
+
+        <h2>📺 Popular TV Shows</h2>
+
+        <div className="movie-grid">
+          {popularTV
+            .slice(0, 10)
+            .map(renderTVCard)}
         </div>
       </div>
     </>
