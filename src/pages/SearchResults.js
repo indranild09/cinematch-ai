@@ -26,10 +26,7 @@ function SearchResults() {
   const [loading, setLoading] =
     useState(true);
 
-  useEffect(() => {
-    loadResults();
-  }, [query]);
-
+useEffect(() => {
   const loadResults = async () => {
     try {
       setLoading(true);
@@ -73,6 +70,9 @@ function SearchResults() {
       setLoading(false);
     }
   };
+
+  loadResults();
+}, [query]);
 
   const renderActorCard =
     (actor) => (
