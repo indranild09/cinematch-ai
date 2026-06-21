@@ -1,4 +1,4 @@
-const moodCategories = {
+export const moodCategories = {
   thriller: [
     "Mystery",
     "Crime",
