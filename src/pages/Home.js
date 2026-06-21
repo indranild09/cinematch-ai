@@ -152,7 +152,16 @@ function Home() {
       if (Array.isArray(results)) {
         setMovies(results);
       } else {
-        setMovies(results.results || []);
+        setMovies(
+  (results.results || []).filter(
+    (item) =>
+      (item.media_type === "movie" ||
+        item.media_type === "tv" ||
+        item.media_type === "person") &&
+      (item.poster_path ||
+        item.profile_path)
+  )
+);
       }
     } catch (error) {
       console.error(error);
@@ -357,7 +366,7 @@ function Home() {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search movies..."
+            placeholder="Search Movies, TV Shows & Actors..."
             value={searchTerm}
             onChange={(e) =>
               setSearchTerm(e.target.value)
