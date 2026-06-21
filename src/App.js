@@ -10,6 +10,7 @@ import Watchlist from "./pages/Watchlist";
 import Favorites from "./pages/Favorites";
 import AIAssistant from "./pages/AIAssistant";
 import { AuthProvider } from "./context/AuthContext";
+import ActorDetails from "./pages/ActorDetails";
 
 function App() {
   return (
@@ -18,13 +19,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route
-  path="/home"
-  element={
-    <ProtectedRoute>
-      <Home />
-    </ProtectedRoute>
-  }
-/>
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/movie/:id"
@@ -73,13 +74,22 @@ function App() {
           />
 
           <Route
-  path="/assistant"
-  element={
-    <ProtectedRoute>
-      <AIAssistant />
-    </ProtectedRoute>
-  }
-/>
+            path="/assistant"
+            element={
+              <ProtectedRoute>
+                <AIAssistant />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/actor/:id"
+            element={
+              <ProtectedRoute>
+                <ActorDetails />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

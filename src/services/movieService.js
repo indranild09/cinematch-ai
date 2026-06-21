@@ -82,3 +82,28 @@ export const getMovieReviews = async (id) => {
 
   return res.json();
 };
+
+export const getActorDetails = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/actor/${id}`
+  );
+
+  return res.json();
+};
+
+export const getActorMovies = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/actor/${id}/movies`
+  );
+
+  return res.json();
+};
+
+export const getActorSocial = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/actor/${id}/social`
+  );
+
+  return res.json();
+};
+

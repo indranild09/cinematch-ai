@@ -367,9 +367,15 @@ function MovieDetails() {
           <div className="movie-grid">
             {cast.slice(0, 12).map((actor) => (
               <div
-                key={actor.cast_id || actor.id}
-                className="movie-card"
-              >
+  key={actor.cast_id || actor.id}
+  className="movie-card"
+  onClick={() =>
+    navigate(`/actor/${actor.id}`)
+  }
+  style={{
+    cursor: "pointer",
+  }}
+>
                 <img
                   src={
                     actor.profile_path

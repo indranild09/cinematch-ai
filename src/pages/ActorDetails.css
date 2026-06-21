@@ -1,0 +1,30 @@
+.actor-container {
+  padding: 30px;
+  color: white;
+}
+
+.actor-header {
+  display: flex;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.actor-image {
+  width: 280px;
+  border-radius: 12px;
+}
+
+.bio {
+  line-height: 1.8;
+  color: #ddd;
+}
+
+@media (max-width: 768px) {
+  .actor-header {
+    flex-direction: column;
+  }
+
+  .actor-image {
+    width: 220px;
+  }
+}
