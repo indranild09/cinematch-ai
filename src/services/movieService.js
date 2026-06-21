@@ -172,3 +172,11 @@ export const getTVWatchProviders =
 
     return res.json();
   };
+
+export const searchAll = async (query) => {
+  const res = await fetch(
+    `${API_BASE}/api/search-all?query=${query}`
+  );
+
+  return res.json();
+};
