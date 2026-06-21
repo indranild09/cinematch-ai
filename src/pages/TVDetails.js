@@ -132,9 +132,10 @@ useEffect(() => {
 )}
 
 <br />
-
+<br />
 <h2>🎭 Cast</h2>
-
+<br />
+<br />
 <div className="tv-grid">
   {cast.slice(0, 12).map((actor) => (
     <div
@@ -166,9 +167,11 @@ useEffect(() => {
 </div>
 
 <br />
+<br />
 
 <h2>📺 Similar TV Shows</h2>
-
+<br />
+<br />
 <div className="tv-grid">
   {recommendations
     .slice(0, 8)
