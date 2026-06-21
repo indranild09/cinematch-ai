@@ -12,6 +12,7 @@ import AIAssistant from "./pages/AIAssistant";
 import { AuthProvider } from "./context/AuthContext";
 import ActorDetails from "./pages/ActorDetails";
 import TVDetails from "./pages/TVDetails";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   return (
@@ -99,6 +100,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+  path="/search"
+  element={
+    <ProtectedRoute>
+      <SearchResults />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

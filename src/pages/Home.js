@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 
 import {
-  searchAll,
+  
   getTrendingMovies,
   getPopularMovies,
   getUpcomingMovies,
@@ -143,31 +143,15 @@ function Home() {
     }
   };
 
-  const searchMovieHandler = async () => {
-    if (!searchTerm.trim()) return;
+ const searchMovieHandler = () => {
+  if (!searchTerm.trim()) return;
 
-    try {
-      const results = await searchAll(searchTerm);
-
-      if (Array.isArray(results)) {
-        setMovies(results);
-      } else {
-        setMovies(
-  (results.results || []).filter(
-    (item) =>
-      (item.media_type === "movie" ||
-        item.media_type === "tv" ||
-        item.media_type === "person") &&
-      (item.poster_path ||
-        item.profile_path)
-  )
-);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  navigate(
+    `/search?q=${encodeURIComponent(
+      searchTerm
+    )}`
+  );
+};
   const handleGenreClick = async (genreId, genreName) => {
     try {
       const data = await getMoviesByGenre(genreId);
@@ -281,64 +265,7 @@ function Home() {
       </div>
     </div>
   );
-  const renderSearchResult = (item) => {
-    const isMovie =
-      item.media_type === "movie";
 
-    const isTV =
-      item.media_type === "tv";
-
-    const isActor =
-      item.media_type === "person";
-
-    return (
-      <div
-        key={`${item.media_type}-${item.id}`}
-        className="movie-card"
-        style={{
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          if (isMovie)
-            navigate(`/movie/${item.id}`);
-
-          if (isTV)
-            navigate(`/tv/${item.id}`);
-
-          if (isActor)
-            navigate(`/actor/${item.id}`);
-        }}
-      >
-        <img
-          src={
-            item.poster_path ||
-              item.profile_path
-              ? `https://image.tmdb.org/t/p/w500${item.poster_path ||
-              item.profile_path
-              }`
-              : "https://via.placeholder.com/300x450?text=No+Image"
-          }
-          alt={
-            item.title ||
-            item.name
-          }
-        />
-
-        <div className="movie-info">
-          <h3>
-            {item.title ||
-              item.name}
-          </h3>
-
-          <p>
-            {isMovie && "🎬 Movie"}
-            {isTV && "📺 TV Show"}
-            {isActor && "👤 Actor"}
-          </p>
-        </div>
-      </div>
-    );
-  };
 
   if (loading) {
     return (
@@ -481,16 +408,11 @@ function Home() {
         )}
 
         {movies.length > 0 && (
-          <>
-            <div className="movie-grid">
-              {movies.map(renderSearchResult)}
-            </div>
-
-            <div className="movie-grid">
-              {movies.map(renderMovieCard)}
-            </div>
-          </>
-        )}
+  <div className="movie-grid">
+    {movies.map(renderMovieCard)}
+  </div>
+)}
+       
         <br />
         <br />
 
