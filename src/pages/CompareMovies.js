@@ -276,9 +276,11 @@ function CompareMovies() {
 
                     {comparisonData.map(movie => (
                       <td key={movie.id}>
-                        {movie.overview.length > 180
-                          ? movie.overview.slice(0, 180) + "..."
-                          : movie.overview}
+                        {movie.overview
+                          ? movie.overview.length > 180
+                            ? movie.overview.slice(0, 180) + "..."
+                            : movie.overview
+                          : "-"}
                       </td>
                     ))}
                   </tr>
