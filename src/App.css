@@ -525,3 +525,12 @@ h1 {
   font-size: 13px;
   margin-top: 4px;
 }
+
+.btnsearch {
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  background: #e50914;
+  color: white;
+}
