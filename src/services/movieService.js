@@ -1,8 +1,13 @@
 const API_BASE = "https://cinematch-api-seven.vercel.app";
 
 export const searchMovies = async (query) => {
-  const res = await fetch(`${API_BASE}/api/search?query=${query}`);
-  return res.json();
+  const data = await searchAll(query);
+
+  return (data.results || []).filter(
+    (item) =>
+      item.media_type === "movie" &&
+      item.poster_path
+  );
 };
 
 export const getMovieDetails = async (id) => {
@@ -188,3 +193,4 @@ export const getCollection = async (id) => {
 
   return res.json();
 };
+
