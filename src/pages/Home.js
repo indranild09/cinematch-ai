@@ -339,7 +339,7 @@ const loadSuggestions =
       placeholder="Search Movies, TV Shows & Actors..."
     />
 
-    <button
+    <button classname="btnsearch"
       onClick={searchMovieHandler}
     >
       Search
