@@ -1,39 +1,51 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
+import "./CompareMovies.css";
 
 function CompareMovies() {
-  return (
-    <>
-      <Navbar />
 
-      <div
-        style={{
-          padding: "30px",
-          color: "white",
-          textAlign: "center",
-        }}
-      >
-        <h1>⚖ Compare Movies</h1>
+  const [search,setSearch]=useState("");
+
+  const [selectedMovies,setSelectedMovies]=
+    useState([]);
+
+  return(
+    <>
+      <Navbar/>
+
+      <div className="compare-page">
+
+        <h1>
+          ⚖ Compare Movies
+        </h1>
 
         <p>
-          Compare up to <strong>5 movies</strong> side by side.
+          Compare up to
+          <strong> 5 movies</strong>
         </p>
 
-        <br />
+        <input
+          className="compare-search"
+          placeholder="Search movie..."
+          value={search}
+          onChange={(e)=>
+            setSearch(e.target.value)
+          }
+        />
 
-        <div
-          style={{
-            border: "2px dashed #555",
-            borderRadius: "15px",
-            padding: "60px",
-            maxWidth: "900px",
-            margin: "auto",
-          }}
-        >
-          🚧 Comparison Builder Coming Next...
+        <div className="selected-container">
+
+          <h2>
+            Selected
+            ({selectedMovies.length}/5)
+          </h2>
+
         </div>
+
       </div>
     </>
-  );
+  )
+
 }
 
 export default CompareMovies;
