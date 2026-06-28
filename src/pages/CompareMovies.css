@@ -309,3 +309,164 @@ box-shadow:0 0 12px rgba(0,255,120,.35);
 transition:.3s;
 
 }
+
+/* ========================= */
+/* Mobile & iPhone Responsive */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .compare-page{
+    padding:20px 15px;
+  }
+
+  .compare-page h1{
+    font-size:30px;
+  }
+
+  .compare-page p{
+    font-size:15px;
+    margin-bottom:20px;
+  }
+
+  .compare-search{
+    width:100%;
+    font-size:16px;
+    padding:14px;
+  }
+
+  .selected-container{
+    padding:15px;
+  }
+
+  .search-item{
+    gap:12px;
+    padding:12px;
+  }
+
+  .search-item img{
+    width:55px;
+    height:80px;
+    object-fit:cover;
+  }
+
+  .search-item h4{
+    font-size:15px;
+  }
+
+  .search-item p{
+    font-size:13px;
+  }
+
+  .search-item button{
+    padding:8px 14px;
+    font-size:14px;
+  }
+
+  .selected-movies{
+    justify-content:center;
+    gap:15px;
+  }
+
+  .selected-card{
+    width:150px;
+  }
+
+  .selected-card img{
+    height:220px;
+  }
+
+  .selected-card h4{
+    font-size:14px;
+    min-height:45px;
+  }
+
+  .selected-card button{
+    padding:8px 14px;
+    font-size:13px;
+  }
+
+  .comparison-table{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .comparison-table table{
+    min-width:900px;
+  }
+
+  .comparison-table th,
+  .comparison-table td{
+    padding:12px;
+    font-size:14px;
+  }
+
+  .comparison-table img{
+    width:90px !important;
+  }
+
+}
+
+
+/* ========================= */
+/* Small Phones (iPhone SE etc.) */
+/* ========================= */
+
+@media (max-width:480px){
+
+  .compare-page{
+    padding:15px 10px;
+  }
+
+  .compare-page h1{
+    font-size:24px;
+  }
+
+  .compare-search{
+    font-size:15px;
+    padding:12px;
+  }
+
+  .search-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .search-item img{
+    width:70px;
+    height:100px;
+  }
+
+  .search-item div{
+    margin-left:0;
+    margin-top:8px;
+  }
+
+  .search-item button{
+    width:100%;
+    margin-top:10px;
+  }
+
+  .selected-card{
+    width:135px;
+  }
+
+  .selected-card img{
+    height:190px;
+  }
+
+  .selected-card h4{
+    font-size:13px;
+  }
+
+  .comparison-table th,
+  .comparison-table td{
+    padding:10px;
+    font-size:13px;
+  }
+
+  .comparison-table img{
+    width:75px !important;
+  }
+
+}
