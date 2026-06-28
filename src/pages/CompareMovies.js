@@ -18,7 +18,7 @@ function CompareMovies() {
   const [results, setResults] =
     useState([]);
   const [comparisonData, setComparisonData] =
-  useState([]);
+    useState([]);
 
   useEffect(() => {
 
@@ -54,31 +54,31 @@ function CompareMovies() {
 
   useEffect(() => {
 
-  const loadComparison = async () => {
+    const loadComparison = async () => {
 
-    const movies = await Promise.all(
+      const movies = await Promise.all(
 
-      selectedMovies.map((movie) =>
-        getMovieDetails(movie.id)
-      )
+        selectedMovies.map((movie) =>
+          getMovieDetails(movie.id)
+        )
 
-    );
+      );
 
-    setComparisonData(movies);
+      setComparisonData(movies);
 
-  };
+    };
 
-  if (selectedMovies.length >= 2) {
+    if (selectedMovies.length >= 2) {
 
-    loadComparison();
+      loadComparison();
 
-  } else {
+    } else {
 
-    setComparisonData([]);
+      setComparisonData([]);
 
-  }
+    }
 
-}, [selectedMovies]);
+  }, [selectedMovies]);
 
   const addMovie = (movie) => {
 
@@ -129,239 +129,283 @@ function CompareMovies() {
           }
         />
 
-        
 
-          <div className="selected-container">
-            {results.length > 0 && (
 
-              <div className="search-results">
+        <div className="selected-container">
+          {results.length > 0 && (
 
-                {results.map((movie) => (
+            <div className="search-results">
 
-                  <div
-                    key={movie.id}
-                    className="search-item"
-                  >
+              {results.map((movie) => (
 
-                    <img
-                      src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                      alt={movie.title}
-                    />
+                <div
+                  key={movie.id}
+                  className="search-item"
+                >
 
-                    <div>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                    alt={movie.title}
+                  />
 
-                      <h4>{movie.title}</h4>
+                  <div>
 
-                      <p>
+                    <h4>{movie.title}</h4>
 
-                        {movie.release_date
-                          ?.split("-")[0]}
+                    <p>
 
-                      </p>
+                      {movie.release_date
+                        ?.split("-")[0]}
 
-                    </div>
-                    <button
-                      onClick={() => addMovie(movie)}
-                    >
-                      Add
-                    </button>
+                    </p>
 
                   </div>
+                  <button
+                    onClick={() => addMovie(movie)}
+                  >
+                    Add
+                  </button>
 
-                ))}
+                </div>
 
-              </div>
+              ))}
 
-            )}
-          </div>
+            </div>
 
-          <h2>
-            Selected
-            ({selectedMovies.length}/5)
-          </h2>
-          <div className="selected-movies">
+          )}
+        </div>
 
-            {selectedMovies.map((movie) => (
+        <h2>
+          Selected
+          ({selectedMovies.length}/5)
+        </h2>
+        <div className="selected-movies">
 
-              <div
-                key={movie.id}
-                className="selected-card"
-              >
+          {selectedMovies.map((movie) => (
 
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                  alt={movie.title}
-                />
+            <div
+              key={movie.id}
+              className="selected-card"
+            >
 
-                <h4>{movie.title}</h4>
+              <img
+                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                alt={movie.title}
+              />
 
-                <button
-                  onClick={() =>
-                    setSelectedMovies(
-                      selectedMovies.filter(
-                        (m) => m.id !== movie.id
-                      )
+              <h4>{movie.title}</h4>
+
+              <button
+                onClick={() =>
+                  setSelectedMovies(
+                    selectedMovies.filter(
+                      (m) => m.id !== movie.id
                     )
-                  }
-                >
-                  ❌ Remove
-                </button>
+                  )
+                }
+              >
+                ❌ Remove
+              </button>
 
-              </div>
+            </div>
 
-            ))}
-            {comparisonData.length >= 2 && (
+          ))}
+          {comparisonData.length >= 2 && (
 
-<div className="comparison-table">
+            <div className="comparison-table">
 
-<h2>
-📊 Comparison
-</h2>
+              <h2>
+                📊 Comparison
+              </h2>
 
-<table>
+              <table>
 
-<tbody>
+                <tbody>
 
-<tr>
+                  <tr>
 
-<th>Feature</th>
+                    <th>Feature</th>
 
-{comparisonData.map(movie=>(
+                    {comparisonData.map(movie => (
 
-<th key={movie.id}>
+                      <th key={movie.id}>
 
-{movie.title}
+                        {movie.title}
 
-</th>
+                      </th>
 
-))}
+                    ))}
 
-</tr>
+                  </tr>
+                  <tr>
+                    <td>🖼 Poster</td>
 
-<tr>
+                    {comparisonData.map(movie => (
+                      <td key={movie.id}>
+                        <img
+                          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                          alt={movie.title}
+                          style={{
+                            width: "120px",
+                            borderRadius: "10px"
+                          }}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td>🎬 Title</td>
 
-<td>⭐ Rating</td>
+                    {comparisonData.map(movie => (
+                      <td key={movie.id}>
+                        {movie.title}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td>📝 Tagline</td>
 
-{comparisonData.map(movie=>(
+                    {comparisonData.map(movie => (
+                      <td key={movie.id}>
+                        {movie.tagline || "-"}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td>📖 Overview</td>
 
-<td key={movie.id}>
+                    {comparisonData.map(movie => (
+                      <td key={movie.id}>
+                        {movie.overview.length > 180
+                          ? movie.overview.slice(0, 180) + "..."
+                          : movie.overview}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
 
-{movie.vote_average}
+                    <td>⭐ Rating</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        {movie.vote_average}
 
-<tr>
+                      </td>
 
-<td>📅 Release</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-{movie.release_date}
+                    <td>📅 Release</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        {movie.release_date}
 
-<tr>
+                      </td>
 
-<td>⏱ Runtime</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-{movie.runtime} min
+                    <td>⏱ Runtime</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        {movie.runtime} min
 
-<tr>
+                      </td>
 
-<td>🎭 Genres</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-{movie.genres
-.map(g=>g.name)
-.join(", ")}
+                    <td>🎭 Genres</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        {movie.genres
+                          .map(g => g.name)
+                          .join(", ")}
 
-<tr>
+                      </td>
 
-<td>💰 Budget</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-${movie.budget.toLocaleString()}
+                    <td>💰 Budget</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        ${movie.budget.toLocaleString()}
 
-<tr>
+                      </td>
 
-<td>💵 Revenue</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-${movie.revenue.toLocaleString()}
+                    <td>💵 Revenue</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        ${movie.revenue.toLocaleString()}
 
-<tr>
+                      </td>
 
-<td>🌍 Language</td>
+                    ))}
 
-{comparisonData.map(movie=>(
+                  </tr>
 
-<td key={movie.id}>
+                  <tr>
 
-{movie.original_language.toUpperCase()}
+                    <td>🌍 Language</td>
 
-</td>
+                    {comparisonData.map(movie => (
 
-))}
+                      <td key={movie.id}>
 
-</tr>
+                        {movie.original_language.toUpperCase()}
 
-</tbody>
+                      </td>
 
-</table>
+                    ))}
 
-</div>
+                  </tr>
 
-)}
-          </div>
+                </tbody>
 
-       
+              </table>
+
+            </div>
+
+          )}
+        </div>
+
+
 
       </div>
     </>
