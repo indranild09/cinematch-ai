@@ -179,13 +179,11 @@ function CompareMovies() {
               </div>
 
             ))}
-            {selectedMovies.length >= 2 && (
-              <button
-                className="compare-btn"
-              >
-                ⚖ Compare Movies
-              </button>
-            )}
+           {selectedMovies.length >= 2 && (
+  <>
+    {/* Comparison Table */}
+  </>
+)}
           </div>
 
        
