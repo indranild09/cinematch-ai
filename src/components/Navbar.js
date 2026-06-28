@@ -42,11 +42,17 @@ function Navbar() {
         </Link>
 
         <Link
-  to="/assistant"
-  className="nav-btn"
->
-  🤖 AI Assistant
-</Link>
+          to="/assistant"
+          className="nav-btn"
+        >
+          🤖 AI Assistant
+        </Link>
+        <Link
+          to="/compare"
+          className="nav-btn"
+        >
+          ⚖ Compare
+        </Link>
       </div>
 
       {/* Right Side */}
@@ -63,7 +69,7 @@ function Navbar() {
         {showMenu && (
           <div className="dropdown-menu">
             <button
-  className="dropdown-item"
+              className="dropdown-item"
               onClick={() =>
                 navigate("/profile")
               }
@@ -72,7 +78,7 @@ function Navbar() {
             </button>
 
             <button
-  className="dropdown-item"
+              className="dropdown-item"
               onClick={handleLogout}
             >
               🚪 Logout

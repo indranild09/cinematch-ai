@@ -13,6 +13,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ActorDetails from "./pages/ActorDetails";
 import TVDetails from "./pages/TVDetails";
 import SearchResults from "./pages/SearchResults";
+import CompareMovies from "./pages/CompareMovies";
 
 function App() {
   return (
@@ -101,13 +102,21 @@ function App() {
             }
           />
           <Route
-  path="/search"
-  element={
-    <ProtectedRoute>
-      <SearchResults />
-    </ProtectedRoute>
-  }
-/>
+            path="/search"
+            element={
+              <ProtectedRoute>
+                <SearchResults />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/compare"
+            element={
+              <ProtectedRoute>
+                <CompareMovies />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
