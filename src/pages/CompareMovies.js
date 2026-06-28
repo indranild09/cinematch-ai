@@ -49,30 +49,30 @@ function CompareMovies() {
 
   }, [search]);
 
-const addMovie = (movie) => {
+  const addMovie = (movie) => {
 
-  if (selectedMovies.length >= 5) {
-    alert("Maximum 5 movies can be compared.");
-    return;
-  }
+    if (selectedMovies.length >= 5) {
+      alert("Maximum 5 movies can be compared.");
+      return;
+    }
 
-  const exists = selectedMovies.find(
-    (item) => item.id === movie.id
-  );
+    const exists = selectedMovies.find(
+      (item) => item.id === movie.id
+    );
 
-  if (exists) {
-    alert("Movie already added.");
-    return;
-  }
+    if (exists) {
+      alert("Movie already added.");
+      return;
+    }
 
-  setSelectedMovies([
-    ...selectedMovies,
-    movie,
-  ]);
+    setSelectedMovies([
+      ...selectedMovies,
+      movie,
+    ]);
 
-  setSearch("");
-  setResults([]);
-};
+    setSearch("");
+    setResults([]);
+  };
 
   return (
     <>
@@ -98,7 +98,7 @@ const addMovie = (movie) => {
           }
         />
 
-        <div className="selected-container">
+        
 
           <div className="selected-container">
             {results.length > 0 && (
@@ -129,11 +129,11 @@ const addMovie = (movie) => {
                       </p>
 
                     </div>
-<button
-  onClick={() => addMovie(movie)}
->
-  Add
-</button>
+                    <button
+                      onClick={() => addMovie(movie)}
+                    >
+                      Add
+                    </button>
 
                   </div>
 
@@ -150,39 +150,45 @@ const addMovie = (movie) => {
           </h2>
           <div className="selected-movies">
 
-  {selectedMovies.map((movie) => (
+            {selectedMovies.map((movie) => (
 
-    <div
-      key={movie.id}
-      className="selected-card"
-    >
+              <div
+                key={movie.id}
+                className="selected-card"
+              >
 
-      <img
-        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-        alt={movie.title}
-      />
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                  alt={movie.title}
+                />
 
-      <h4>{movie.title}</h4>
+                <h4>{movie.title}</h4>
 
-      <button
-        onClick={() =>
-          setSelectedMovies(
-            selectedMovies.filter(
-              (m) => m.id !== movie.id
-            )
-          )
-        }
-      >
-        ❌ Remove
-      </button>
+                <button
+                  onClick={() =>
+                    setSelectedMovies(
+                      selectedMovies.filter(
+                        (m) => m.id !== movie.id
+                      )
+                    )
+                  }
+                >
+                  ❌ Remove
+                </button>
 
-    </div>
+              </div>
 
-  ))}
+            ))}
+            {selectedMovies.length >= 2 && (
+              <button
+                className="compare-btn"
+              >
+                ⚖ Compare Movies
+              </button>
+            )}
+          </div>
 
-</div>
-
-        </div>
+       
 
       </div>
     </>

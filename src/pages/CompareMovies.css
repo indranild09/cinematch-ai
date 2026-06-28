@@ -205,3 +205,37 @@ margin-top:10px;
 font-weight:bold;
 
 }
+
+.compare-btn{
+
+display:block;
+
+margin:35px auto;
+
+padding:15px 40px;
+
+font-size:18px;
+
+font-weight:bold;
+
+background:#ff9800;
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.compare-btn:hover{
+
+transform:scale(1.05);
+
+background:#ffb300;
+
+}
