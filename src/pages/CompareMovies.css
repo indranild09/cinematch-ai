@@ -295,3 +295,17 @@ font-weight:bold;
 background:#262626;
 
 }
+
+.winner{
+
+background:#1f8f4f !important;
+
+color:white;
+
+font-weight:bold;
+
+box-shadow:0 0 12px rgba(0,255,120,.35);
+
+transition:.3s;
+
+}

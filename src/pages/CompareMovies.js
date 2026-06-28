@@ -105,6 +105,21 @@ function CompareMovies() {
     setResults([]);
   };
 
+  const getHighest = (field) => {
+  return Math.max(
+    ...comparisonData.map(
+      (movie) => movie[field] || 0
+    )
+  );
+};
+
+const highestRating = getHighest("vote_average");
+const highestPopularity = getHighest("popularity");
+const highestRevenue = getHighest("revenue");
+const highestBudget = getHighest("budget");
+const highestRuntime = getHighest("runtime");
+const highestVotes = getHighest("vote_count");
+
   return (
     <>
       <Navbar />
@@ -284,21 +299,51 @@ function CompareMovies() {
                       </td>
                     ))}
                   </tr>
-                  <tr>
+                 <tr>
 
-                    <td>⭐ Rating</td>
+<td>⭐ Rating</td>
 
-                    {comparisonData.map(movie => (
+{comparisonData.map(movie => (
 
-                      <td key={movie.id}>
+<td
+key={movie.id}
+className={
+movie.vote_average === highestRating
+? "winner"
+: ""
+}
+>
 
-                        {movie.vote_average}
+⭐ {movie.vote_average.toFixed(1)}
 
-                      </td>
+</td>
 
-                    ))}
+))}
 
-                  </tr>
+</tr>
+
+<tr>
+
+<td>🔥 Popularity</td>
+
+{comparisonData.map(movie => (
+
+<td
+key={movie.id}
+className={
+movie.popularity === highestPopularity
+? "winner"
+: ""
+}
+>
+
+{movie.popularity.toFixed(0)}
+
+</td>
+
+))}
+
+</tr>
 
                   <tr>
 
@@ -316,21 +361,28 @@ function CompareMovies() {
 
                   </tr>
 
-                  <tr>
+                 <tr>
 
-                    <td>⏱ Runtime</td>
+<td>⏱ Runtime</td>
 
-                    {comparisonData.map(movie => (
+{comparisonData.map(movie => (
 
-                      <td key={movie.id}>
+<td
+key={movie.id}
+className={
+movie.runtime === highestRuntime
+? "winner"
+: ""
+}
+>
 
-                        {movie.runtime} min
+{movie.runtime} min
 
-                      </td>
+</td>
 
-                    ))}
+))}
 
-                  </tr>
+</tr>
 
                   <tr>
 
@@ -352,35 +404,71 @@ function CompareMovies() {
 
                   <tr>
 
-                    <td>💰 Budget</td>
+<td>💰 Budget</td>
 
-                    {comparisonData.map(movie => (
+{comparisonData.map(movie => (
 
-                      <td key={movie.id}>
+<td
+key={movie.id}
+className={
+movie.budget === highestBudget
+? "winner"
+: ""
+}
+>
 
-                        ${movie.budget.toLocaleString()}
+${movie.budget.toLocaleString()}
 
-                      </td>
+</td>
 
-                    ))}
+))}
 
-                  </tr>
+</tr>
 
-                  <tr>
+                 <tr>
 
-                    <td>💵 Revenue</td>
+<td>💵 Revenue</td>
 
-                    {comparisonData.map(movie => (
+{comparisonData.map(movie => (
 
-                      <td key={movie.id}>
+<td
+key={movie.id}
+className={
+movie.revenue === highestRevenue
+? "winner"
+: ""
+}
+>
 
-                        ${movie.revenue.toLocaleString()}
+${movie.revenue.toLocaleString()}
 
-                      </td>
+</td>
 
-                    ))}
+))}
 
-                  </tr>
+</tr>
+<tr>
+
+<td>🗳 Votes</td>
+
+{comparisonData.map(movie => (
+
+<td
+key={movie.id}
+className={
+movie.vote_count === highestVotes
+? "winner"
+: ""
+}
+>
+
+{movie.vote_count.toLocaleString()}
+
+</td>
+
+))}
+
+</tr>
 
                   <tr>
 
