@@ -528,7 +528,8 @@ h1 {
 
 .btnsearch {
   padding: 12px 20px;
-  border: none;
+  border: 5px solid #e50914;
+  margin-left: 10px;
   cursor: pointer;
   border-radius: 6px;
   background: #e50914;
