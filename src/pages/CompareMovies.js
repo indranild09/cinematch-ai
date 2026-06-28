@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import "./CompareMovies.css";
 import {
   searchMovies,
+  getMovieDetails,
 } from "../services/movieService";
 
 function CompareMovies() {
@@ -16,6 +17,8 @@ function CompareMovies() {
     useState([]);
   const [results, setResults] =
     useState([]);
+  const [comparisonData, setComparisonData] =
+  useState([]);
 
   useEffect(() => {
 
@@ -48,6 +51,34 @@ function CompareMovies() {
       clearTimeout(timer);
 
   }, [search]);
+
+  useEffect(() => {
+
+  const loadComparison = async () => {
+
+    const movies = await Promise.all(
+
+      selectedMovies.map((movie) =>
+        getMovieDetails(movie.id)
+      )
+
+    );
+
+    setComparisonData(movies);
+
+  };
+
+  if (selectedMovies.length >= 2) {
+
+    loadComparison();
+
+  } else {
+
+    setComparisonData([]);
+
+  }
+
+}, [selectedMovies]);
 
   const addMovie = (movie) => {
 
@@ -179,10 +210,154 @@ function CompareMovies() {
               </div>
 
             ))}
-           {selectedMovies.length >= 2 && (
-  <>
-    {/* Comparison Table */}
-  </>
+            {comparisonData.length >= 2 && (
+
+<div className="comparison-table">
+
+<h2>
+📊 Comparison
+</h2>
+
+<table>
+
+<tbody>
+
+<tr>
+
+<th>Feature</th>
+
+{comparisonData.map(movie=>(
+
+<th key={movie.id}>
+
+{movie.title}
+
+</th>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>⭐ Rating</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+{movie.vote_average}
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>📅 Release</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+{movie.release_date}
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>⏱ Runtime</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+{movie.runtime} min
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>🎭 Genres</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+{movie.genres
+.map(g=>g.name)
+.join(", ")}
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>💰 Budget</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+${movie.budget.toLocaleString()}
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>💵 Revenue</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+${movie.revenue.toLocaleString()}
+
+</td>
+
+))}
+
+</tr>
+
+<tr>
+
+<td>🌍 Language</td>
+
+{comparisonData.map(movie=>(
+
+<td key={movie.id}>
+
+{movie.original_language.toUpperCase()}
+
+</td>
+
+))}
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
 )}
           </div>
 
