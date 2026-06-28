@@ -14,6 +14,7 @@ import {
   getWatchProviders,
   getMovieCast,
   getMovieReviews,
+  getCollection,
 } from "../services/movieService";
 import "./MovieDetails.css";
 
@@ -22,7 +23,7 @@ import { db } from "../firebase";
 import {
   doc,
   updateDoc,
-   getDoc, arrayUnion,
+  getDoc, arrayUnion,
 } from "firebase/firestore";
 
 function MovieDetails() {
@@ -35,6 +36,7 @@ function MovieDetails() {
   const [reviews, setReviews] = useState([]);
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
+  const [collection, setCollection] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
   const getProviderUrl = (providerName) => {
@@ -58,16 +60,24 @@ function MovieDetails() {
   };
 
   useEffect(() => {
-  loadMovie();
+    loadMovie();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const loadMovie = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
       const movieData = await getMovieDetails(id);
       setMovie(movieData);
+      if (movieData.belongs_to_collection) {
+        const collectionData =
+          await getCollection(
+            movieData.belongs_to_collection.id
+          );
+
+        setCollection(collectionData);
+      }
       saveRecentView(movieData);
 
       const recData = await getRecommendations(id);
@@ -96,67 +106,67 @@ function MovieDetails() {
       console.error(error);
     }
   };
-const saveRecentView =
-  async (movieData) => {
-    try {
-      const user =
-        auth.currentUser;
+  const saveRecentView =
+    async (movieData) => {
+      try {
+        const user =
+          auth.currentUser;
 
-      if (!user) return;
+        if (!user) return;
 
-      const userRef = doc(
-        db,
-        "users",
-        user.uid
-      );
+        const userRef = doc(
+          db,
+          "users",
+          user.uid
+        );
 
-      const userSnap =
-        await getDoc(userRef);
+        const userSnap =
+          await getDoc(userRef);
 
-      const userData =
-        userSnap.data() || {};
+        const userData =
+          userSnap.data() || {};
 
-      let recentViews =
-        userData.recentViews || [];
+        let recentViews =
+          userData.recentViews || [];
 
-      recentViews =
-        recentViews.filter(
-          (item) =>
-            !(
-              item.id ===
+        recentViews =
+          recentViews.filter(
+            (item) =>
+              !(
+                item.id ===
                 movieData.id &&
-              item.type ===
+                item.type ===
                 "movie"
-            )
+              )
+          );
+
+        recentViews.unshift({
+          id: movieData.id,
+          type: "movie",
+          title:
+            movieData.title,
+          poster:
+            movieData.poster_path,
+          viewedAt:
+            Date.now(),
+        });
+
+        recentViews =
+          recentViews.slice(
+            0,
+            20
+          );
+
+        await updateDoc(
+          userRef,
+          {
+            recentViews,
+          }
         );
-
-      recentViews.unshift({
-        id: movieData.id,
-        type: "movie",
-        title:
-          movieData.title,
-        poster:
-          movieData.poster_path,
-        viewedAt:
-          Date.now(),
-      });
-
-      recentViews =
-        recentViews.slice(
-          0,
-          20
-        );
-
-      await updateDoc(
-        userRef,
-        {
-          recentViews,
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      } catch (error) {
+        console.error(error);
+      }
+    };
   const addToWatchlist = async () => {
     try {
       const auth = getAuth();
@@ -245,18 +255,18 @@ const saveRecentView =
 
   if (loading || !movie) {
     return (
-  <>
-    <Navbar />
+      <>
+        <Navbar />
 
-    <div className="loader-container">
-      <div className="loader-spinner"></div>
+        <div className="loader-container">
+          <div className="loader-spinner"></div>
 
-      <div className="loader-text">
-        Loading Movie Details...
-      </div>
-    </div>
-  </>
-);
+          <div className="loader-text">
+            Loading Movie Details...
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -429,15 +439,15 @@ const saveRecentView =
           <div className="movie-grid">
             {cast.slice(0, 12).map((actor) => (
               <div
-  key={actor.cast_id || actor.id}
-  className="movie-card"
-  onClick={() =>
-    navigate(`/actor/${actor.id}`)
-  }
-  style={{
-    cursor: "pointer",
-  }}
->
+                key={actor.cast_id || actor.id}
+                className="movie-card"
+                onClick={() =>
+                  navigate(`/actor/${actor.id}`)
+                }
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 <img
                   src={
                     actor.profile_path
@@ -467,7 +477,7 @@ const saveRecentView =
           }}
         >
           <h2>⭐ Reviews</h2>
-<br/>
+          <br />
           {reviews.length > 0 ? (
             <div className="reviews-container">
               {reviews.slice(0, 5).map((review) => (
@@ -496,7 +506,65 @@ const saveRecentView =
             </p>
           )}
         </div>
+        {collection && (
+          <>
+            <br />
+            <br />
 
+            <h2>
+              🎞 Part of "{collection.name}"
+            </h2>
+
+            <div className="movie-grid">
+              {collection.parts.map((part) => (
+                <div
+                  key={part.id}
+                  className="movie-card"
+                  onClick={() =>
+                    navigate(`/movie/${part.id}`)
+                  }
+                  style={{
+                    cursor: "pointer",
+                    border:
+                      part.id === movie.id
+                        ? "3px solid #ff9800"
+                        : "",
+                  }}
+                >
+                  <img
+                    src={
+                      part.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${part.poster_path}`
+                        : "https://via.placeholder.com/300x450?text=No+Image"
+                    }
+                    alt={part.title}
+                  />
+
+                  <div className="movie-info">
+                    <h3>{part.title}</h3>
+
+                    <p>
+                      {part.release_date
+                        ? part.release_date.split("-")[0]
+                        : "N/A"}
+                    </p>
+
+                    {part.id === movie.id && (
+                      <span
+                        style={{
+                          color: "#ff9800",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Currently Viewing
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
         <h2>🎬 Movies Like This</h2>
 
         <div className="movie-grid">
@@ -526,11 +594,11 @@ const saveRecentView =
           ))}
         </div>
       </div>
-          <ToastContainer
-  position="top-right"
-  autoClose={2500}
-  theme="dark"
-/>
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        theme="dark"
+      />
     </>
   );
 }

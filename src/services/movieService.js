@@ -180,3 +180,11 @@ export const searchAll = async (query) => {
 
   return res.json();
 };
+
+export const getCollection = async (id) => {
+  const res = await fetch(
+    `${API_BASE}/api/collection/${id}`
+  );
+
+  return res.json();
+};
